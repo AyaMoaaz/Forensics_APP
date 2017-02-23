@@ -8,7 +8,9 @@ package forensics_app;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -33,9 +35,54 @@ public class SharedModel {
     *dol m4 3yzhom yrg3o ka tokens we replace lel symbols be space
     *return : array list of tokens
      */
-    ArrayList<String> GetTokens(String Url, String Title) {
+    ArrayList<String> GetTokens(String Url) {
+        
         ArrayList<String> tokens_list = new ArrayList<String>();
-
+        StringTokenizer token;
+        ArrayList<String> stopWords = new ArrayList<>(Arrays.asList("a","the",
+                "is","are","in","on","and","to","all","with","http",
+                "www","https","net","org","com","gov","eg","uk",
+                "apk","edu","rar","tv","pdf","ppt","pptx","dll",
+                "dat","dmg","dwg","jar","zip","xml","bin","xls",
+                "xlxs","mkv","lnk","lhg","من","فى","على","إلى",
+                "و","عن"));
+        boolean test = false;
+        String word;
+        Url = Url.toLowerCase();
+        Url = Url.replace(",", " ").replace(".", " ").replace(";", " ")
+                .replace("!", " ").replace("[", " ").replace("]", " ")
+                .replace(":", " ").replace("?", " ").replace("؟", " ")
+                .replace("{", " ").replace("}", " ").replace("/", " ")
+                .replace("*", " ").replace("*", " ").replace("&", " ")
+                .replace("%", " ").replace("^", " ").replace("$", " ")
+                .replace("#", " ").replace("(", " ").replace(")", " ")
+                .replace("_", " ").replace("-", " ").replace("[", " ")
+                .replace("]", " ").replace("!", " ").replace("@", " ")
+                .replace("+", " ").replace("`", " ").replace("<", " ")
+                .replace(">", " ").replace("0", " ").replace("1", " ")
+                .replace("2", " ").replace("3", " ").replace("7", " ")
+                .replace("4", " ").replace("5", " ").replace("6", " ")
+                .replace("8", " ").replace("9", " ").replace("10", " ")
+                .replace("–", " ").replace("", " ").replace("ð", " ")
+                .replace("'", " ").replace("—", " ").replace("\"", " ");
+        
+        token = new StringTokenizer(Url);
+            
+        while (token.hasMoreTokens()){
+            word = token.nextToken();
+            for (int i = 0; i < stopWords.size() ; i++){
+                
+                if (word.equals(stopWords.get(i)))
+                {
+                    test = true;
+                    break;
+                }
+            }
+            if (test == false)
+            {
+                tokens_list.add(word);
+            }
+        }
         return tokens_list;
     }
 
