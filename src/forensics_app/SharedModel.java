@@ -56,7 +56,7 @@ public class SharedModel {
 	*/
 	
 
-    String Parsing_time(int time)
+    String ParsingTime(int time)
     {
         String timeStamp="hello";
         return timeStamp;
