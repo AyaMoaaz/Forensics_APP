@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.StringTokenizer;
+import java.io.IOException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 /**
  *
@@ -23,10 +26,23 @@ public class SharedModel {
     *we lw mlo4 keywords bn7ot NaN fe l list we we b3d keda n3mlha return	
     *return : array list of keywords
      */
-    ArrayList<String> GetKeywords(String URl) {
+    ArrayList<String> GetKeywords(String URl) throws IOException {
         ArrayList<String> keywords_list = new ArrayList<String>();
-
-        return keywords_list;
+        Document doc = Jsoup.connect(URl).userAgent("Mozilla").get();
+        String content = (doc.select("head meta[name=keywords]").attr("content"));
+        String[] split = content.split("\\s*,\\s*");
+        if (split.length > 1 || (split.length > 0 && split[0] != null && !split[0].isEmpty())) {
+            content = content.toLowerCase();
+            keywords_list = new ArrayList(Arrays.asList(content.split(",")));
+            /*for (int i = 0; i < keywords_list.size(); i++) {
+                System.out.println(keywords_list.get(i));
+            }*/
+            return keywords_list;
+        } else {
+            keywords_list.add("NaN");
+            return keywords_list;
+        }
+        
     }
 
     /* Description  : kol ali bt3mlo l function de enha lama nb3tlha l url aw l title ,
