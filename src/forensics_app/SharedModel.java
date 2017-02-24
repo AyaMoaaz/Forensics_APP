@@ -12,6 +12,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.StringTokenizer;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -19,7 +22,30 @@ import org.jsoup.nodes.Document;
  *
  * @author Ayaa
  */
-public class SharedModel {
+public class SharedModel<E> extends ArrayList<E> {
+    
+    private Map<E,Integer> count = new HashMap<E,Integer>();
+
+    // There are several entry points to this class
+    // this is just to show one of them.
+    public boolean add( E element  ) { 
+        if( !count.containsKey( element ) ){
+            count.put( element, 1 );
+        } else { 
+            count.put( element, count.get( element ) + 1 );
+        }
+        return super.add( element );
+    }
+
+    // This method belongs to CountItemList interface ( or class ) 
+    // to used you have to cast.
+    public int getCount( E element ) { 
+        if( ! count.containsKey( element ) ) {
+            return 0;
+        }
+        return count.get( element );
+    }
+
 
     /*Description  : bn3ml array list of strings we na5od l url ntl3 l keywords bta3to we b3den n3mla 
     add fel list de 
@@ -106,9 +132,29 @@ public class SharedModel {
       *tbd2 t7sb l percentage le kol type we trg3lna 2d list kol type we 2odamo l percentage bta3o 
       *return : 2d list of strings [type name , percentage]
      */
-    ArrayList<ArrayList<String>> GetPercentage(ArrayList<String> Types_list) {
-        ArrayList<ArrayList<String>> Percentage_list = new ArrayList<ArrayList<String>>();
-        return Percentage_list;
+    List<List> GetPercentage(ArrayList<String> Types_list) {
+        List<List> Percentage_list= new ArrayList<List>();
+        ArrayList<String> types=new ArrayList<String>();
+        ArrayList<Integer> vals=new ArrayList<Integer>();
+        Types_list.add("sport");
+        Types_list.add("social");
+        Types_list.add("social");
+        Types_list.add("news");
+        Types_list.add("sport");
+        Types_list.add("sport");
+        Types_list.add("social");
+        Types_list.add("social");
+        Types_list.add("social");
+        Types_list.add("sport");
+       for(String typo: Types_list){
+           int sum=(( SharedModel<String> )Types_list).getCount( typo );
+           int total=sum*100/Types_list.size();
+           types.add(typo);
+           vals.add(total);
+    }
+       Percentage_list.add(types);
+       Percentage_list.add(vals);
+       return Percentage_list;
         //test commit
 
     }
