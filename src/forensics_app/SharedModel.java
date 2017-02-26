@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.StringTokenizer;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,27 +24,27 @@ import org.jsoup.nodes.Document;
  * @author Ayaa
  */
 public class SharedModel<E> extends ArrayList<E> {
-    
-    private Map<E,Integer> count = new HashMap<E,Integer>();
+
+    private Map<E, Integer> count = new HashMap<E, Integer>();
 
     // There are several entry points to this class
     // this is just to show one of them.
-    public boolean add( E element  ) { 
-        if( !count.containsKey( element ) ){
-            count.put( element, 1 );
-        } else { 
-            count.put( element, count.get( element ) + 1 );
+    public boolean add(E element) {
+        if (!count.containsKey(element)) {
+            count.put(element, 1);
+        } else {
+            count.put(element, count.get(element) + 1);
         }
-        return super.add( element );
+        return super.add(element);
     }
 
     // This method belongs to CountItemList interface ( or class ) 
     // to used you have to cast.
-    public int getCount( E element ) { 
-        if( ! count.containsKey( element ) ) {
+    public int getCount(E element) {
+        if (!count.containsKey(element)) {
             return 0;
         }
-        return count.get( element );
+        return count.get(element);
     }
 
 
@@ -60,15 +61,13 @@ public class SharedModel<E> extends ArrayList<E> {
         if (split.length > 1 || (split.length > 0 && split[0] != null && !split[0].isEmpty())) {
             content = content.toLowerCase();
             keywords_list = new ArrayList(Arrays.asList(content.split(",")));
-            /*for (int i = 0; i < keywords_list.size(); i++) {
-                System.out.println(keywords_list.get(i));
-            }*/
+
             return keywords_list;
         } else {
             keywords_list.add("NaN");
             return keywords_list;
         }
-        
+
     }
 
     /* Description  : kol ali bt3mlo l function de enha lama nb3tlha l url aw l title ,
@@ -78,16 +77,16 @@ public class SharedModel<E> extends ArrayList<E> {
     *return : array list of tokens
      */
     ArrayList<String> GetTokens(String Url) {
-        
+
         ArrayList<String> tokens_list = new ArrayList<String>();
         StringTokenizer token;
-        ArrayList<String> stopWords = new ArrayList<>(Arrays.asList("a","the",
-                "is","are","in","on","and","to","all","with","http",
-                "www","https","net","org","com","gov","eg","uk",
-                "apk","edu","rar","tv","pdf","ppt","pptx","dll",
-                "dat","dmg","dwg","jar","zip","xml","bin","xls",
-                "xlxs","mkv","lnk","lhg","من","فى","على","إلى",
-                "و","عن"));
+        ArrayList<String> stopWords = new ArrayList<>(Arrays.asList("a", "the",
+                "is", "are", "in", "on", "and", "to", "all", "with", "http",
+                "www", "https", "net", "org", "com", "gov", "eg", "uk",
+                "apk", "edu", "rar", "tv", "pdf", "ppt", "pptx", "dll",
+                "dat", "dmg", "dwg", "jar", "zip", "xml", "bin", "xls",
+                "xlxs", "mkv", "lnk", "lhg", "من", "فى", "على", "إلى",
+                "و", "عن"));
         boolean test = false;
         String word;
         Url = Url.toLowerCase();
@@ -107,21 +106,19 @@ public class SharedModel<E> extends ArrayList<E> {
                 .replace("8", " ").replace("9", " ").replace("10", " ")
                 .replace("–", " ").replace("", " ").replace("ð", " ")
                 .replace("'", " ").replace("—", " ").replace("\"", " ");
-        
+
         token = new StringTokenizer(Url);
-            
-        while (token.hasMoreTokens()){
+
+        while (token.hasMoreTokens()) {
             word = token.nextToken();
-            for (int i = 0; i < stopWords.size() ; i++){
-                
-                if (word.equals(stopWords.get(i)))
-                {
+            for (int i = 0; i < stopWords.size(); i++) {
+
+                if (word.equals(stopWords.get(i))) {
                     test = true;
                     break;
                 }
             }
-            if (test == false)
-            {
+            if (test == false) {
                 tokens_list.add(word);
             }
         }
@@ -133,30 +130,21 @@ public class SharedModel<E> extends ArrayList<E> {
       *return : 2d list of strings [type name , percentage]
      */
     List<List> GetPercentage(ArrayList<String> Types_list) {
-        List<List> Percentage_list= new ArrayList<List>();
-        ArrayList<String> types=new ArrayList<String>();
-        ArrayList<Integer> vals=new ArrayList<Integer>();
-        Types_list.add("sport");
-        Types_list.add("social");
-        Types_list.add("social");
-        Types_list.add("news");
-        Types_list.add("sport");
-        Types_list.add("sport");
-        Types_list.add("social");
-        Types_list.add("social");
-        Types_list.add("social");
-        Types_list.add("sport");
-       for(String typo: Types_list){
-           int sum=(( SharedModel<String> )Types_list).getCount( typo );
-           int total=sum*100/Types_list.size();
-           types.add(typo);
-           vals.add(total);
-    }
-       Percentage_list.add(types);
-       Percentage_list.add(vals);
-       return Percentage_list;
-        //test commit
-
+        List<List> Percentage_list = new ArrayList<List>();
+        ArrayList<String> types = new ArrayList<String>();
+        ArrayList<Integer> vals = new ArrayList<Integer>();
+        for (String typo : Types_list) {
+            if (!types.contains(typo)) {
+                int sum = Collections.frequency(Types_list, typo);
+                int total = sum * 100 / Types_list.size();
+                types.add(typo);
+                vals.add(total);
+            }
+        }
+        Percentage_list.add(types);
+        Percentage_list.add(vals);
+        // System.out.println(Percentage_list.get(1).get(2));
+        return Percentage_list;
     }
 
     /*Description  : bta5od l time we t7wlo le timestamp ali hyd5lo l user
