@@ -5,29 +5,52 @@
  */
 package forensics_app;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
  *
  * @author Ayaa
  */
-public class History {
-    
-       /*Description  : bnrg3 l data mn l sqllite file fe resultset 3adi 
+public class History extends SharedModel<Object>{
+
+    /*Description  : bnrg3 l data mn l sqllite file fe resultset 3adi 
 	*we b3d keda bn3ml list mn l object HistoryContent we nbd2 nfadi l resultset f object	
         *return : list of objects from HistoryContent
-	*/
+     */
+    public static ArrayList<HistoryContent> ReturnData(int time) {
+        Connection connection = null;
+        ResultSet resultSet = null;
+        Statement statement = null;
+        ArrayList<HistoryContent> listOf_History_content = new ArrayList<HistoryContent>();
+        HistoryContent hs = new HistoryContent();
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\m_ela\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\History");
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("select url,title,last_visit_time "
+                    + "from urls "
+                    + "where last_visit_time > " + ParsingTime(time)
+                    + " order by last_visit_time desc");
+            while (resultSet.next()) {
+                hs.SetUrl(resultSet.getString("url"));
+                hs.SetTitle(resultSet.getString("title"));
+                hs.SetVisitTime(resultSet.getString("last_visit_time"));
+                listOf_History_content.add(hs);
+            }
+            resultSet.close();
+            statement.close();
+            connection.close();
+            return listOf_History_content;
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-     ArrayList<HistoryContent> ReturnData(int time)
-     {
-          ArrayList<HistoryContent> listOf_History_content=new ArrayList();
-          return listOf_History_content;
-     }
-   
-     
-
-		
     /*Description  : hena m4 hn3ml 7aga aktr mn enna n3ml call lel functons ali 3mlnha fo2 we 4wayt loops	
      *l2wel hanadi 3ala function l return data we n7otha f list we b3d keda hnm4i 3ala row row fe l	
      *list de be loop na5od l url bta3ha we n3mlo pass le function l GetKeywords we nrag3 l keywords	
@@ -44,9 +67,8 @@ public class History {
      *we b3d keda n3ml return lel 2d list de
      *return : 2d list ali rag3a mn function Percentage
      */
-     ArrayList<ArrayList<String>> Analysis(int time)
-      {
-          ArrayList<ArrayList<String>> Percentage_list = new ArrayList<ArrayList<String>>();
-          return Percentage_list;
-      }
+    ArrayList<ArrayList<String>> Analysis(int time) {
+        ArrayList<ArrayList<String>> Percentage_list = new ArrayList<ArrayList<String>>();
+        return Percentage_list;
+    }
 }

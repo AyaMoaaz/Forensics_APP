@@ -53,7 +53,7 @@ public class SharedModel<E> extends ArrayList<E> {
     *we lw mlo4 keywords bn7ot NaN fe l list we we b3d keda n3mlha return	
     *return : array list of keywords
      */
-    ArrayList<String> GetKeywords(String URl) throws IOException {
+    public static ArrayList<String> GetKeywords(String URl) throws IOException {
         ArrayList<String> keywords_list = new ArrayList<String>();
         Document doc = Jsoup.connect(URl).userAgent("Mozilla").get();
         String content = (doc.select("head meta[name=keywords]").attr("content"));
@@ -76,7 +76,7 @@ public class SharedModel<E> extends ArrayList<E> {
     *dol m4 3yzhom yrg3o ka tokens we replace lel symbols be space
     *return : array list of tokens
      */
-    ArrayList<String> GetTokens(String Url) {
+    public static ArrayList<String> GetTokens(String Url) {
 
         ArrayList<String> tokens_list = new ArrayList<String>();
         StringTokenizer token;
@@ -129,7 +129,7 @@ public class SharedModel<E> extends ArrayList<E> {
       *tbd2 t7sb l percentage le kol type we trg3lna 2d list kol type we 2odamo l percentage bta3o 
       *return : 2d list of strings [type name , percentage]
      */
-    List<List> GetPercentage(ArrayList<String> Types_list) {
+    public static List<List> GetPercentage(ArrayList<String> Types_list) {
         List<List> Percentage_list = new ArrayList<List>();
         ArrayList<String> types = new ArrayList<String>();
         ArrayList<Integer> vals = new ArrayList<Integer>();
@@ -152,7 +152,7 @@ public class SharedModel<E> extends ArrayList<E> {
 	*we ntr7 mno 2 days we b3d keda n3mlo return
         *return : String timestamp
      */
-    String ParsingTime(int time) {
+    public static String ParsingTime(int time) {
         long UserTime = 86400 * time; // de 3dad l ayam ali da5lha l user bel sec
         long NowTime = (System.currentTimeMillis() / 1000) - UserTime; // timestamp now
         BigInteger x1 = new BigInteger(String.valueOf(NowTime));
@@ -161,7 +161,7 @@ public class SharedModel<E> extends ArrayList<E> {
         return x3.toString();
     }
 
-    Date ParsingTimestamp(String timestamp) {
+    public static Date ParsingTimestamp(String timestamp) {
         BigInteger db_value = new BigInteger(timestamp);
         BigInteger sub = new BigInteger("11644473600");
         BigInteger div = new BigInteger("1000000");
