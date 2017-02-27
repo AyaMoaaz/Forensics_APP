@@ -26,9 +26,9 @@ public class Bookmarks {
       * return : list of objects from DownloadContent
       */
     // mal7oza l time hena l mfrod yrg3 3ala hy2t time stamp 3ala tol 
-    /*  ArrayList<BookmarksContent>*/void  RetrunData() 
+     ArrayList<BookmarksContent>  RetrunData() 
     {
-    
+      ArrayList<BookmarksContent> listOf_bookmarks_content=new ArrayList();
         // a file reader class to access the file using string file path 
         FileReader reader = null;
         try {
@@ -61,16 +61,26 @@ public class Bookmarks {
             if (obj.containsKey("children")) {
                 try {
                     childrens = (JSONArray) obj.get("children");
-                    printContent(childrens);
+                    listOf_bookmarks_content=printContent(childrens);
+                   
                 } catch (Exception e) {
 
                 }
             }
+            
         }
+       
         // display , how many urls we have found  
         System.out.println("count is " + count);
+         return listOf_bookmarks_content;
     }
-    public static void printContent(JSONArray childrens) {
+    public static  ArrayList<BookmarksContent> printContent(JSONArray childrens) {
+       ArrayList<BookmarksContent> list_bookmarks =new ArrayList<BookmarksContent>();
+       ArrayList<String> type_bookmarks = new ArrayList<String>();
+       ArrayList<String> urls = new ArrayList<String>();
+       ArrayList<String> dateAdded = new ArrayList<String>();
+       ArrayList<String> Name = new ArrayList<String>();
+       BookmarksContent book=new BookmarksContent();
         JSONObject temp = null;
         for (int i = 0; i < childrens.size(); i++) {
             // get object using index from childrens array
@@ -80,18 +90,27 @@ public class Bookmarks {
             }
             // get url
             String url = (String) temp.get("url");
+            urls.add(url);
+            book.SetURL(url);
             String name = (String) temp.get("name");
+            Name.add(name);
+            book.SetName(name);
             String type = (String) temp.get("type");
+            type_bookmarks.add(type);
+            book.SetType(type);
             String date_added = (String) temp.get("date_added");
-            
+            dateAdded.add(date_added);
+            book.SetDateAdded(date_added);       
+            list_bookmarks.add(book);
+          
             if (url != null) {
-                System.out.println("url: "+url+"\n"+"name: "+ name+"\n"+"type: "+type+"\n"+"date added: "+date_added);
+//                System.out.println("url: "+url+"\n"+"name: "+ name+"\n"+"type: "+type+"\n"+"date added: "+date_added);
+              System.out.println("url: "+book.GetURL()+"\n"+"name: "+ book.GetName()+"\n"+"type: "+book.GetType()+"\n"+"date added: "+book.GetDateAdded());
                 count++;
+                
             }
-//     ArrayList<BookmarksContent> listOf_bookmarks_content=new ArrayList();
-//     return listOf_bookmarks_content;
-        
     }
+        return list_bookmarks;
     }
     /*
       *nafs l fkra feli 3mlnah fel hisotry hn3ml call le function l return data 
