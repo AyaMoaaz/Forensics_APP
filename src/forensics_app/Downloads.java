@@ -28,7 +28,7 @@ public class Downloads {
         Connection connection = null;
         ResultSet resultSet = null;
         Statement statement = null;
-        DownloadsContent Download = new DownloadsContent();
+        DownloadsContent Download = null;
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Zeinab\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\History");
             statement = connection.createStatement();
@@ -37,6 +37,7 @@ public class Downloads {
                     + "where start_time > " + ParsingTime(time)
                     + " order by start_time desc");
             while (resultSet.next()) {
+                Download = new DownloadsContent();
                 Download.SetUrl(resultSet.getString("tab_url"));
                 Download.SetMimeType(resultSet.getString("mime_type"));
                 Download.SetTime(resultSet.getString("start_time"));
