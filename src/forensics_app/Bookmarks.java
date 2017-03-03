@@ -18,7 +18,7 @@ import org.json.simple.parser.ParseException;
  *
  * @author Ayaa
  */
-public class Bookmarks {
+public class Bookmarks extends SharedModel<Object> {
     public static String jsonFile = "C:\\Users\\Ayaa\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\bookmarks";
     static int count = 0;
     /*Description  : bnrg3 l data mn l sqllite file fe resultset 3adi 
@@ -26,8 +26,11 @@ public class Bookmarks {
       * return : list of objects from DownloadContent
       */
     // mal7oza l time hena l mfrod yrg3 3ala hy2t time stamp 3ala tol 
-     ArrayList<BookmarksContent>  RetrunData() 
+   /*  ArrayList<BookmarksContent>*/void  RetrunData(int time) 
     {
+     
+        
+       
       ArrayList<BookmarksContent> listOf_bookmarks_content=new ArrayList();
         // a file reader class to access the file using string file path 
         FileReader reader = null;
@@ -61,7 +64,7 @@ public class Bookmarks {
             if (obj.containsKey("children")) {
                 try {
                     childrens = (JSONArray) obj.get("children");
-                    listOf_bookmarks_content=printContent(childrens);
+                    listOf_bookmarks_content=printContent(childrens,ParsingTime(time));
                    
                 } catch (Exception e) {
 
@@ -72,9 +75,9 @@ public class Bookmarks {
        
         // display , how many urls we have found  
         System.out.println("count is " + count);
-         return listOf_bookmarks_content;
+        // return listOf_bookmarks_content;
     }
-    public static  ArrayList<BookmarksContent> printContent(JSONArray childrens) {
+    public static  ArrayList<BookmarksContent> printContent(JSONArray childrens,String time) {
        ArrayList<BookmarksContent> list_bookmarks =new ArrayList<BookmarksContent>();
        ArrayList<String> type_bookmarks = new ArrayList<String>();
        ArrayList<String> urls = new ArrayList<String>();
@@ -86,7 +89,7 @@ public class Bookmarks {
             // get object using index from childrens array
             temp = (JSONObject) childrens.get(i);
             if (temp.containsKey("children")) {
-                printContent((JSONArray) temp.get("children"));
+                printContent((JSONArray) temp.get("children"),time);
             }
             // get url
             String url = (String) temp.get("url");
@@ -99,11 +102,13 @@ public class Bookmarks {
             type_bookmarks.add(type);
             book.SetType(type);
             String date_added = (String) temp.get("date_added");
+            int time_integer=Integer.parseInt(time);
+            int date_integer=Integer.parseInt(date_added);
             dateAdded.add(date_added);
             book.SetDateAdded(date_added);       
             list_bookmarks.add(book);
           
-            if (url != null) {
+            if (url != null && date_integer>time_integer) {
 //                System.out.println("url: "+url+"\n"+"name: "+ name+"\n"+"type: "+type+"\n"+"date added: "+date_added);
               System.out.println("url: "+book.GetURL()+"\n"+"name: "+ book.GetName()+"\n"+"type: "+book.GetType()+"\n"+"date added: "+book.GetDateAdded());
                 count++;

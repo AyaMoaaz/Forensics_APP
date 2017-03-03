@@ -15,7 +15,8 @@ public class Forensics_APP {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+     Bookmarks test=new Bookmarks();
+     test.RetrunData(5);
        
     }
     
