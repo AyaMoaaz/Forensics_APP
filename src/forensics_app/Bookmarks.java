@@ -107,7 +107,7 @@ public class Bookmarks extends SharedModel<Object> {
             dateAdded.add(date_added);
             book.SetDateAdded(date_added);       
             list_bookmarks.add(book);
-          
+          //here
             if (url != null && date_integer>time_integer) {
 //                System.out.println("url: "+url+"\n"+"name: "+ name+"\n"+"type: "+type+"\n"+"date added: "+date_added);
               System.out.println("url: "+book.GetURL()+"\n"+"name: "+ book.GetName()+"\n"+"type: "+book.GetType()+"\n"+"date added: "+book.GetDateAdded());
