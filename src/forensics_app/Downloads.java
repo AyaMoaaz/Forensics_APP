@@ -5,6 +5,11 @@
  */
 package forensics_app;
 
+import static forensics_app.SharedModel.ParsingTime;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -17,11 +22,36 @@ public class Downloads {
        *return : list of objects from DownloadContent
       */
       // mal7oza l time hena l mfrod yrg3 3ala hy2t time stamp 3ala tol 
-     ArrayList<DownloadsContent> ReturnData(int time)
-            
+    public static ArrayList<DownloadsContent> ReturnData(int time)       
     {
         ArrayList<DownloadsContent> listOf_Downloads_content = new ArrayList();
-        return listOf_Downloads_content;
+        Connection connection = null;
+        ResultSet resultSet = null;
+        Statement statement = null;
+        DownloadsContent Download = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Zeinab\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\History");
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("select tab_url,mime_type,start_time "
+                    + "from downloads "
+                    + "where start_time > " + ParsingTime(time)
+                    + " order by start_time desc");
+            while (resultSet.next()) {
+                Download = new DownloadsContent();
+                Download.SetUrl(resultSet.getString("tab_url"));
+                Download.SetMimeType(resultSet.getString("mime_type"));
+                Download.SetTime(resultSet.getString("start_time"));
+                listOf_Downloads_content.add(Download);
+            }
+            resultSet.close();
+            statement.close();
+            connection.close();
+            return listOf_Downloads_content;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null; 
     }
    
      /*Description  : nafs l fkra feli 3mlnah fel hisotry hn3ml call le function l return data we 

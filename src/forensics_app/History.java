@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author Ayaa
  */
-public class History extends SharedModel<Object>{
+public class History extends SharedModel<Object> {
 
     /*Description  : bnrg3 l data mn l sqllite file fe resultset 3adi 
 	*we b3d keda bn3ml list mn l object HistoryContent we nbd2 nfadi l resultset f object	
@@ -26,7 +26,7 @@ public class History extends SharedModel<Object>{
         ResultSet resultSet = null;
         Statement statement = null;
         ArrayList<HistoryContent> listOf_History_content = new ArrayList<HistoryContent>();
-        HistoryContent hs = new HistoryContent();
+        HistoryContent hs = null;
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\m_ela\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\History");
             statement = connection.createStatement();
@@ -35,6 +35,7 @@ public class History extends SharedModel<Object>{
                     + "where last_visit_time > " + ParsingTime(time)
                     + " order by last_visit_time desc");
             while (resultSet.next()) {
+                hs = new HistoryContent();
                 hs.SetUrl(resultSet.getString("url"));
                 hs.SetTitle(resultSet.getString("title"));
                 hs.SetVisitTime(resultSet.getString("last_visit_time"));

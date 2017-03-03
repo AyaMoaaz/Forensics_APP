@@ -14,6 +14,7 @@ import java.util.StringTokenizer;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import org.jsoup.Jsoup;
@@ -169,5 +170,97 @@ public class SharedModel<E> extends ArrayList<E> {
         Timestamp stamp = new Timestamp(result.longValue() * 1000);
         Date date_stamp = new Date(stamp.getTime());// el stamp 3la 4kl date (old);
         return date_stamp;
+    }
+
+    public static String CheckDictionary(ArrayList<String> keywords) {
+
+        keywords.add("facebook");// to test
+        keywords.add("football");
+        String Type = null;
+        Hashtable dict = new Hashtable(); // da l dictionary 
+        dict = Dictoionary();
+        for (int i = 0; i < keywords.size(); i++) {
+            Type = dict.get(keywords.get(i)).toString();
+            if (!Type.isEmpty()) {
+                break;
+            }
+        }
+        return Type;
+
+    }
+
+    public static Hashtable Dictoionary() {
+        Hashtable dict = new Hashtable();
+
+        /**
+         * ***********social media************
+         */
+        dict.put("facebook", "social");
+        dict.put("twitter", "social");
+        dict.put("instgram", "social");
+        dict.put("whatsapp", "social");
+        /**
+         * ***********sports***********
+         */
+        dict.put("football", "sport");
+        dict.put("sports", "sport");
+        dict.put("the middle east ", "sport");
+        dict.put("africa", "sport");
+        dict.put("abo tricka", "sport");
+        dict.put("bascketball ", "sport");
+        dict.put("volleyball ", "sport");
+        dict.put("professional wrestling", "sport");
+        dict.put("karate", "sport");
+        /**
+         * ********music ***************
+         */
+        dict.put("record", "music");
+        dict.put("sounds", "music");
+        dict.put("audio", "music");
+        dict.put("record ", "music");
+        dict.put("trackes", "music");
+        dict.put("sound", "music");
+        /**
+         * **************games**********
+         */
+        dict.put("ubi soft", "games");
+        dict.put("ubi", "games");
+        dict.put("assassinscreed", "games");
+        dict.put("far cry", "games");
+        dict.put("games", "games");
+        dict.put("video game", "games");
+        dict.put("videogame", "games");
+        dict.put("video games", "games");
+        /**
+         * ***********news***************
+         */
+        dict.put("news", "news");
+        dict.put("breaking news", "news");
+        dict.put("latest news", "news");
+        dict.put("news online", "news");
+        dict.put("news", "news");
+        dict.put("weather", "news");
+        dict.put("law", "news");
+        dict.put("money", "news");
+        dict.put("reports", "news");
+        dict.put("special reports", "news");
+        /**
+         * ********************hacking ************************
+         */
+        dict.put("hacker", "hacking");
+        dict.put("hacking", "hacking");
+        /**
+         * *******************mail***********************
+         */
+        dict.put("email", "email");
+        dict.put("yahoo email", "email");
+        dict.put("contact email", "email");
+        dict.put("phone email", "email");
+        dict.put("gmail", "email");
+        /**
+         * **************************************
+         */
+
+        return dict;
     }
 }
