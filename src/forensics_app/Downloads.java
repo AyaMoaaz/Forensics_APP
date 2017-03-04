@@ -17,13 +17,13 @@ import java.util.ArrayList;
  * @author Ayaa
  */
 public class Downloads {
+
     /*Description  : bnrg3 l data mn l sqllite file fe resultset 3adi 
        *we b3d keda bn3ml list mn l object DownloadContent we nbd2 nfadi l resultset f objects
        *return : list of objects from DownloadContent
-      */
-      // mal7oza l time hena l mfrod yrg3 3ala hy2t time stamp 3ala tol 
-    public static ArrayList<DownloadsContent> ReturnData(int time)       
-    {
+     */
+    // mal7oza l time hena l mfrod yrg3 3ala hy2t time stamp 3ala tol 
+    public static ArrayList<DownloadsContent> ReturnData(int time) {
         ArrayList<DownloadsContent> listOf_Downloads_content = new ArrayList();
         Connection connection = null;
         ResultSet resultSet = null;
@@ -51,18 +51,17 @@ public class Downloads {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null; 
+        return null;
     }
-   
-     /*Description  : nafs l fkra feli 3mlnah fel hisotry hn3ml call le function l return data we 
+
+    /*Description  : nafs l fkra feli 3mlnah fel hisotry hn3ml call le function l return data we 
      *n7dflha l timestamp ali hwa l fatra ali htgeb feha l data . we b3d kda hnb3t col
      *mimetype le function percentages
      *return : 2d list ali rag3a mn function Percentage	
      */
-      ArrayList<ArrayList<String>>  Analysis(int time)
-    {
-       
-          ArrayList<ArrayList<String>> Percentage_list = new ArrayList<ArrayList<String>>();
-          return Percentage_list;
+    ArrayList<ArrayList<String>> Analysis(int time) {
+
+        ArrayList<ArrayList<String>> Percentage_list = new ArrayList<ArrayList<String>>();
+        return Percentage_list;
     }
 }
