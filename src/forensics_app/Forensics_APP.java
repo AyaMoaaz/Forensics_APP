@@ -15,9 +15,8 @@ public class Forensics_APP {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-     Bookmarks test=new Bookmarks();
-     test.RetrunData(5);
-       
+        
+
     }
-    
+
 }
