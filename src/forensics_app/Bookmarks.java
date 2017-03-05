@@ -20,7 +20,8 @@ import org.json.simple.parser.JSONParser;
  */
 public class Bookmarks extends SharedModel<Object> {
     public static ArrayList<BookmarksContent> ReturnData(int time) throws org.json.simple.parser.ParseException, IOException {
-        String jsonFile = "C:\\Users\\m_ela\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\bookmarks";
+        String user = System.getProperty("user.name");
+        String jsonFile = "C:\\Users\\" + user + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\bookmarks";
         FileReader reader = new FileReader(jsonFile);
         JSONObject jsonObject = (JSONObject) new JSONParser().parse(reader);
         JSONObject root = (JSONObject) jsonObject.get("roots");

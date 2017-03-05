@@ -29,8 +29,9 @@ public class Downloads {
         ResultSet resultSet = null;
         Statement statement = null;
         DownloadsContent Download = null;
+        String user = System.getProperty("user.name");
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Zeinab\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\History");
+            connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\" + user + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\History");
             statement = connection.createStatement();
             resultSet = statement.executeQuery("select tab_url,mime_type,start_time "
                     + "from downloads "

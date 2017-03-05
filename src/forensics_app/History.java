@@ -27,8 +27,9 @@ public class History extends SharedModel<Object> {
         Statement statement = null;
         ArrayList<HistoryContent> listOf_History_content = new ArrayList<HistoryContent>();
         HistoryContent hs = null;
+        String user = System.getProperty("user.name");
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\m_ela\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\History");
+            connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\" + user + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\History");
             statement = connection.createStatement();
             resultSet = statement.executeQuery("select url,title,last_visit_time "
                     + "from urls "
