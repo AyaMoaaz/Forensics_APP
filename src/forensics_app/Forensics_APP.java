@@ -18,7 +18,8 @@ public class Forensics_APP {
      * @param args the command line arguments
      */
     public static void main(String[] args)throws org.json.simple.parser.ParseException, IOException {
-    
+    Bookmarks book=new Bookmarks();
+    book.Analysis(50);
     }
 
 }

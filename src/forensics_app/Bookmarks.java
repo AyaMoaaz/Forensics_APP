@@ -93,8 +93,8 @@ public class Bookmarks extends SharedModel<Object> {
                    keywords_list.add(temp.get(i));
            }
            
-           type=CheckDictionary(keywords_list);
-           types_list.add(type);
+//           type=CheckDictionary(keywords_list);
+//           types_list.add(type);
        }
        System.out.println(keywords_list);
 //       for (int i = 0; i < keywords_list.size(); i++){
