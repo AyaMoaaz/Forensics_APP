@@ -71,23 +71,24 @@ public class Bookmarks extends SharedModel<Object> {
         
        ArrayList<BookmarksContent> list_bookmarks= new ArrayList<BookmarksContent>();
        ArrayList<String> keywords_list=new ArrayList<String>();
-        list_bookmarks= ReturnData(time);
-        for(int i = 0 ; i < list_bookmarks.size() ; i++) {
-           
-           
-            keywords_list=GetKeywords(list_bookmarks.get(i).GetURL());
-
-            if(GetKeywords(list_bookmarks.get(i).GetURL()).contains("NaN"))
-            {
-               System.out.println(GetTokens(list_bookmarks.get(i).GetName()));
-                System.out.println(GetTokens(list_bookmarks.get(i).GetURL()));
-            }
-            else 
-            System.out.println(GetKeywords(list_bookmarks.get(i).GetURL()));
-             
-        }
-
-        ArrayList<ArrayList<String>> Percentage_list = new ArrayList<ArrayList<String>>();
-        return Percentage_list;
+       String type;
+       ArrayList<String> types_list=new ArrayList<String>();
+       list_bookmarks= ReturnData(time);
+       for(int i = 0 ; i < list_bookmarks.size() ; i++) {
+           keywords_list=GetKeywords(list_bookmarks.get(i).GetURL());
+           if(GetKeywords(list_bookmarks.get(i).GetURL()).contains("NaN"))
+           {
+               GetTokens(list_bookmarks.get(i).GetName());
+               GetTokens(list_bookmarks.get(i).GetURL());
+           }
+           else 
+           GetKeywords(list_bookmarks.get(i).GetURL());
+       }
+       for (int i = 0; i < keywords_list.size(); i++){
+       type = CheckDictionary(keywords_list);
+       types_list.add(type);
+       }
+       ArrayList<ArrayList<String>> Percentage_list = new ArrayList<ArrayList<String>>();
+       return Percentage_list;
     }
 }
