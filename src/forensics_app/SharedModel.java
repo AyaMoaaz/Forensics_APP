@@ -119,9 +119,9 @@ public class SharedModel<E> extends ArrayList<E> {
                     break;
                 }
             }
-            if (test == false) {
+            
                 tokens_list.add(word);
-            }
+           
         }
         return tokens_list;
     }

@@ -5,6 +5,7 @@
  */
 package forensics_app;
 
+import com.sun.org.apache.xpath.internal.compiler.Keywords;
 import java.util.ArrayList;
 import java.io.FileReader;
 import java.io.IOException;
@@ -48,10 +49,16 @@ public class Bookmarks extends SharedModel<Object> {
                         book.SetType(temp.get("type").toString());
                         book.SetDateAdded(temp.get("date_added").toString());
                         list_bookmarks.add(book);
+                        
                     }
+                   
                 }
+//                  for(int j=0;j<list_bookmarks.size();j++){
+//                      System.out.println(list_bookmarks.get(j).GetURL());
+//                  }
             }
         }
+        
         return list_bookmarks;
     }
     /*
@@ -60,7 +67,26 @@ public class Bookmarks extends SharedModel<Object> {
       *we n7ded l type we b3d kda n7dfha lel percentage we n3ml return fel a5r
       *return : 2d list ali rag3a mn function Percentage
      */
-    ArrayList<ArrayList<String>> Analysis(int time) {
+    ArrayList<ArrayList<String>> Analysis(int time)throws org.json.simple.parser.ParseException, IOException {
+        
+       ArrayList<BookmarksContent> list_bookmarks= new ArrayList<BookmarksContent>();
+       ArrayList<String> keywords_list=new ArrayList<String>();
+        list_bookmarks= ReturnData(time);
+        for(int i = 0 ; i < list_bookmarks.size() ; i++) {
+           
+           
+            keywords_list=GetKeywords(list_bookmarks.get(i).GetURL());
+
+            if(GetKeywords(list_bookmarks.get(i).GetURL()).contains("NaN"))
+            {
+               System.out.println(GetTokens(list_bookmarks.get(i).GetName()));
+                System.out.println(GetTokens(list_bookmarks.get(i).GetURL()));
+            }
+            else 
+            System.out.println(GetKeywords(list_bookmarks.get(i).GetURL()));
+             
+        }
+
         ArrayList<ArrayList<String>> Percentage_list = new ArrayList<ArrayList<String>>();
         return Percentage_list;
     }

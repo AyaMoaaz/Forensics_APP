@@ -5,6 +5,9 @@
  */
 package forensics_app;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 /**
  *
  * @author Ayaa
@@ -14,9 +17,8 @@ public class Forensics_APP {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        
-
+    public static void main(String[] args)throws org.json.simple.parser.ParseException, IOException {
+    
     }
 
 }
