@@ -82,12 +82,14 @@ public class Bookmarks extends SharedModel<Object> {
                GetTokens(list_bookmarks.get(i).GetURL());
            }
            else 
-           GetKeywords(list_bookmarks.get(i).GetURL());
+          keywords_list= GetKeywords(list_bookmarks.get(i).GetURL());
+           type=CheckDictionary(keywords_list);
+           types_list.add(type);
        }
-       for (int i = 0; i < keywords_list.size(); i++){
-       type = CheckDictionary(keywords_list);
-       types_list.add(type);
-       }
+//       for (int i = 0; i < keywords_list.size(); i++){
+//       type = CheckDictionary(keywords_list);
+//       types_list.add(type);
+//       }
        ArrayList<ArrayList<String>> Percentage_list = new ArrayList<ArrayList<String>>();
        return Percentage_list;
     }
