@@ -112,16 +112,20 @@ public class SharedModel<E> extends ArrayList<E> {
 
         while (token.hasMoreTokens()) {
             word = token.nextToken();
+            test = false;
             for (int i = 0; i < stopWords.size(); i++) {
 
                 if (word.equals(stopWords.get(i))) {
                     test = true;
                     break;
                 }
+                if (test == false) {
+                    tokens_list.add(word);
+                }
             }
-            
-                tokens_list.add(word);
-           
+
+            tokens_list.add(word);
+
         }
         return tokens_list;
     }
@@ -173,16 +177,17 @@ public class SharedModel<E> extends ArrayList<E> {
     }
 
     public static String CheckDictionary(ArrayList<String> keywords) {
-
-        keywords.add("facebook");// to test
-        keywords.add("football");
         String Type = null;
         Hashtable dict = new Hashtable(); // da l dictionary 
         dict = Dictoionary();
         for (int i = 0; i < keywords.size(); i++) {
-            Type = dict.get(keywords.get(i)).toString();
-            if (!Type.isEmpty()) {
-                break;
+            try {
+                Type = dict.get(keywords.get(i)).toString();
+                if (!Type.isEmpty()) {
+                    break;
+                }
+            } catch (Exception e) {
+                Type = "unknown";
             }
         }
         return Type;
