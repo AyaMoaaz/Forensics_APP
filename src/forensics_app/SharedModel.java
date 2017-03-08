@@ -144,19 +144,19 @@ public class SharedModel<E> extends ArrayList<E> {
     public static List<List> GetPercentage(ArrayList<String> Types_list) {
         List<List> Percentage_list = new ArrayList<List>();
         ArrayList<String> types = new ArrayList<String>();
-        ArrayList<Integer> vals = new ArrayList<Integer>();
+        ArrayList<Double> vals = new ArrayList<Double>();
         for (String typo : Types_list) {
             if (!types.contains(typo)) {
                 int sum = Collections.frequency(Types_list, typo);
-                int total = sum * 100 / Types_list.size();
+                double total = ((double) sum * 100 / (double) Types_list.size());
                 types.add(typo);
                 vals.add(total);
             }
         }
         Percentage_list.add(types);
         Percentage_list.add(vals);
-        // System.out.println(Percentage_list.get(1).get(2));
         return Percentage_list;
+        
     }
 
     /*Description  : bta5od l time we t7wlo le timestamp ali hyd5lo l user
@@ -184,17 +184,16 @@ public class SharedModel<E> extends ArrayList<E> {
     }
 
     public static String CheckDictionary(ArrayList<String> keywords) {
-        String Type = null;
+        String Type = "unknown";
         Hashtable dict = new Hashtable(); // da l dictionary 
         dict = Dictoionary();
         for (int i = 0; i < keywords.size(); i++) {
             try {
                 Type = dict.get(keywords.get(i)).toString();
-                if (!Type.isEmpty()) {
+                if (!Type.equals("unknown")) {
                     break;
                 }
             } catch (Exception e) {
-                Type = "unknown";
             }
         }
         return Type;

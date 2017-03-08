@@ -5,11 +5,13 @@
  */
 package forensics_app;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -69,8 +71,33 @@ public class History extends SharedModel<Object> {
      *we b3d keda n3ml return lel 2d list de
      *return : 2d list ali rag3a mn function Percentage
      */
-    ArrayList<ArrayList<String>> Analysis(int time) {
-        ArrayList<ArrayList<String>> Percentage_list = new ArrayList<ArrayList<String>>();
+    public static List<List> Analysis(int time) throws IOException {
+        List<List> Percentage_list = new ArrayList<List>();
+        ArrayList<HistoryContent> listOf_History_content = new ArrayList<HistoryContent>();
+        ArrayList<String> keywords_list = new ArrayList<String>();
+        ArrayList<String> types = new ArrayList<String>();
+        String type;
+        String URL;
+        String title;
+        listOf_History_content = ReturnData(time);
+
+        for (int i = 0; i < listOf_History_content.size(); i++) {
+            URL = listOf_History_content.get(i).GetUrl();
+            title = listOf_History_content.get(i).GetTitle();
+            keywords_list = GetKeywords(URL);
+            if (!keywords_list.contains("NaN")) {
+                type = CheckDictionary(keywords_list);
+                types.add(type);
+            } else {
+                keywords_list.clear();
+                keywords_list.addAll(GetTokens(URL));
+                keywords_list.addAll(GetTokens(title));
+                type = CheckDictionary(keywords_list);
+                types.add(type);
+            }
+
+        }
+        Percentage_list = GetPercentage(types);
         return Percentage_list;
     }
 }
