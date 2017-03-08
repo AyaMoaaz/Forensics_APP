@@ -56,13 +56,21 @@ public class SharedModel<E> extends ArrayList<E> {
      */
     public static ArrayList<String> GetKeywords(String URl) throws IOException {
         ArrayList<String> keywords_list = new ArrayList<String>();
-        Document doc = Jsoup.connect(URl).userAgent("Mozilla").get();
-        String content = (doc.select("head meta[name=keywords]").attr("content"));
-        String[] split = content.split("\\s*,\\s*");
+        Document doc = null;
+        String content = null;
+        String[] split = {""};
+        try {
+            doc = Jsoup.connect(URl).userAgent("IE").get();
+            content = (doc.select("head meta[name=keywords]").attr("content"));
+            split = content.split("\\s*,\\s*");
+
+        } catch (Exception e) {
+        }
+
         if (split.length > 1 || (split.length > 0 && split[0] != null && !split[0].isEmpty())) {
             content = content.toLowerCase();
-            keywords_list = new ArrayList(Arrays.asList(content.split(",")));
-
+            System.out.println(content);
+            keywords_list = new ArrayList(Arrays.asList(content.split(", ")));
             return keywords_list;
         } else {
             keywords_list.add("NaN");
