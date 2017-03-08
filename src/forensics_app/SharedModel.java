@@ -87,7 +87,7 @@ public class SharedModel<E> extends ArrayList<E> {
                 "apk", "edu", "rar", "tv", "pdf", "ppt", "pptx", "dll",
                 "dat", "dmg", "dwg", "jar", "zip", "xml", "bin", "xls",
                 "xlxs", "mkv", "lnk", "lhg", "من", "فى", "على", "إلى",
-                "و", "عن"));
+                "و", "عن", "html"));
         boolean test = false;
         String word;
         Url = Url.toLowerCase();
