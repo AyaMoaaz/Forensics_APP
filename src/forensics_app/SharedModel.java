@@ -69,7 +69,6 @@ public class SharedModel<E> extends ArrayList<E> {
 
         if (split.length > 1 || (split.length > 0 && split[0] != null && !split[0].isEmpty())) {
             content = content.toLowerCase();
-            System.out.println(content);
             keywords_list = new ArrayList(Arrays.asList(content.split(", ")));
             return keywords_list;
         } else {
