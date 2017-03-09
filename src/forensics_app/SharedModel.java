@@ -126,13 +126,10 @@ public class SharedModel<E> extends ArrayList<E> {
                     test = true;
                     break;
                 }
-                if (test == false) {
-                    tokens_list.add(word);
-                }
             }
-
-            tokens_list.add(word);
-
+            if (test == false) {
+                tokens_list.add(word);
+            }
         }
         return tokens_list;
     }
