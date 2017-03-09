@@ -19,7 +19,9 @@ public class Forensics_APP {
      */
     public static void main(String[] args)throws org.json.simple.parser.ParseException, IOException {
     Bookmarks book=new Bookmarks();
-    book.Analysis(50);
+    
+    book.Analysis(5000);
+    
     }
 
 }

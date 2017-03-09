@@ -5,11 +5,12 @@
  */
 package forensics_app;
 
-import com.sun.org.apache.xpath.internal.compiler.Keywords;
+//import com.sun.org.apache.xpath.internal.compiler.Keywords;
 import java.util.ArrayList;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigInteger;
+//import java.util.List;
 import java.util.Set;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,6 +21,7 @@ import org.json.simple.parser.JSONParser;
  * @author Ayaa
  */
 public class Bookmarks extends SharedModel<Object> {
+
     public static ArrayList<BookmarksContent> ReturnData(int time) throws org.json.simple.parser.ParseException, IOException {
         String user = System.getProperty("user.name");
         String jsonFile = "C:\\Users\\" + user + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\bookmarks";
@@ -49,59 +51,58 @@ public class Bookmarks extends SharedModel<Object> {
                         book.SetType(temp.get("type").toString());
                         book.SetDateAdded(temp.get("date_added").toString());
                         list_bookmarks.add(book);
-                        
+
                     }
-                   
+
                 }
-//                  for(int j=0;j<list_bookmarks.size();j++){
-//                      System.out.println(list_bookmarks.get(j).GetURL());
-//                  }
             }
         }
-        
+    //    for (int j = 0; j < list_bookmarks.size(); j++) {
+  //          System.out.println(list_bookmarks.get(j).GetURL());
+//        }
+
         return list_bookmarks;
     }
     /*
-      *nafs l fkra feli 3mlnah fel hisotry hn3ml call le function l return data 
-      *n7dflha l timestamp ali hwa l fatra ali htgeb feha l data we n3ml for loop ntl3 beha l keywords
-      *we n7ded l type we b3d kda n7dfha lel percentage we n3ml return fel a5r
-      *return : 2d list ali rag3a mn function Percentage
+     *nafs l fkra feli 3mlnah fel hisotry hn3ml call le function l return data 
+     *n7dflha l timestamp ali hwa l fatra ali htgeb feha l data we n3ml for loop ntl3 beha l keywords
+     *we n7ded l type we b3d kda n7dfha lel percentage we n3ml return fel a5r
+     *return : 2d list ali rag3a mn function Percentage
      */
-    ArrayList<ArrayList<String>> Analysis(int time)throws org.json.simple.parser.ParseException, IOException {
-        
-       ArrayList<BookmarksContent> list_bookmarks= new ArrayList<BookmarksContent>();
-       ArrayList<String> keywords_list=new ArrayList<String>();
-       ArrayList<String> temp = new  ArrayList<String>();
-       String type;
-       ArrayList<String> types_list=new ArrayList<String>();
-       list_bookmarks= ReturnData(time);
-       for(int i = 0 ; i < list_bookmarks.size() ; i++) {
-           if(GetKeywords(list_bookmarks.get(i).GetURL()).contains("NaN"))
-           {
-               temp=GetTokens(list_bookmarks.get(i).GetName());
-               for(i=0;i<temp.size();i++){
-                   keywords_list.add(temp.get(i));
-               }
-               temp=GetTokens(list_bookmarks.get(i).GetURL());
-               for(i=0;i<temp.size();i++){
-                   keywords_list.add(temp.get(i));
-               }
-           }
-           else{
-               temp= GetKeywords(list_bookmarks.get(i).GetURL());
-               for(i=0;i<temp.size();i++)
-                   keywords_list.add(temp.get(i));
-           }
-           
-//           type=CheckDictionary(keywords_list);
-//           types_list.add(type);
-       }
-       System.out.println(keywords_list);
-//       for (int i = 0; i < keywords_list.size(); i++){
-//       type = CheckDictionary(keywords_list);
-//       types_list.add(type);
-//       }
-       ArrayList<ArrayList<String>> Percentage_list = new ArrayList<ArrayList<String>>();
-       return Percentage_list;
+
+    //
+    ArrayList<ArrayList<String>> Analysis(int time) throws org.json.simple.parser.ParseException, IOException {
+        ArrayList<ArrayList<String>> Percentage_list = new ArrayList<ArrayList<String>>();
+        ArrayList<BookmarksContent> list_bookmarks = new ArrayList<BookmarksContent>();
+        ArrayList<String> keywords_list = new ArrayList<String>();
+        ArrayList<String> types_list = new ArrayList<String>();
+        String type;
+        String name;
+        String url;
+        list_bookmarks = ReturnData(time);
+        System.out.println("bookmarks_size: " + list_bookmarks.size());
+        for (int i = 0; i < list_bookmarks.size(); i++) {
+            name = list_bookmarks.get(i).GetName();
+            url = list_bookmarks.get(i).GetURL();
+            keywords_list = GetKeywords(url);
+            if (!keywords_list.contains("NaN")) {
+                System.out.println("keywords: " + keywords_list);
+                type = CheckDictionary(keywords_list);
+                System.out.println("url_type: " + type);
+                types_list.add(type);
+            } else {
+                keywords_list.clear();
+                keywords_list.addAll(GetTokens(url));
+                keywords_list.addAll(GetTokens(name));
+                System.out.println("tokens: " + keywords_list);
+                type = CheckDictionary(keywords_list);
+                System.out.println("url_type: " + type);
+                types_list.add(type);
+            }
+        }
+        System.out.println("types: " + types_list);
+        Percentage_list = (ArrayList) GetPercentage(types_list);
+        System.out.println("Percentage_list: " + Percentage_list);
+        return Percentage_list;
     }
 }
