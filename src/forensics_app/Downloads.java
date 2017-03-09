@@ -6,11 +6,13 @@
 package forensics_app;
 
 import static forensics_app.SharedModel.ParsingTime;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -60,9 +62,21 @@ public class Downloads {
      *mimetype le function percentages
      *return : 2d list ali rag3a mn function Percentage	
      */
-    ArrayList<ArrayList<String>> Analysis(int time) {
+    public static List<List> Analysis(int time) throws IOException {
 
-        ArrayList<ArrayList<String>> Percentage_list = new ArrayList<ArrayList<String>>();
+        List<List> Percentage_list = new ArrayList<List>();
+        ArrayList<DownloadsContent> Data_List = new ArrayList<DownloadsContent>();
+        SharedModel share = new SharedModel();
+        Data_List = ReturnData(time);
+        ArrayList<String> Mime_Type = new ArrayList<String>();
+        
+        for (int i = 0; i < Data_List.size() ; i++)
+        {
+            Mime_Type.add(Data_List.get(i).GetMimeType());
+        }
+        
+        Percentage_list = share.GetPercentage(Mime_Type);
+        
         return Percentage_list;
     }
 }
