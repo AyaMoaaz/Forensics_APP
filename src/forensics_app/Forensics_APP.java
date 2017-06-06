@@ -17,11 +17,12 @@ public class Forensics_APP {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args)throws org.json.simple.parser.ParseException, IOException {
-    Bookmarks book=new Bookmarks();
-    
-    book.Analysis(5000);
-    
+    public static void main(String[] args) throws org.json.simple.parser.ParseException, IOException {
+        
+        History hist = new History();
+        System.out.println(hist.Analysis(1));
+        
+
     }
 
 }

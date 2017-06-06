@@ -12,6 +12,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.StringTokenizer;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -153,7 +157,7 @@ public class SharedModel<E> extends ArrayList<E> {
         Percentage_list.add(types);
         Percentage_list.add(vals);
         return Percentage_list;
-        
+
     }
 
     /*Description  : bta5od l time we t7wlo le timestamp ali hyd5lo l user
@@ -181,94 +185,134 @@ public class SharedModel<E> extends ArrayList<E> {
     }
 
     public static String CheckDictionary(ArrayList<String> keywords) {
+        Connection connection = null;
+        ResultSet resultSet = null;
+        Statement statement = null;
         String Type = "unknown";
-        Hashtable dict = new Hashtable(); // da l dictionary 
-        dict = Dictoionary();
-        for (int i = 0; i < keywords.size(); i++) {
+
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:Keywords.db");
+            statement = connection.createStatement();
+        } catch (Exception e) {
+            System.out.println("error in connection");
+        }
+        
+        for (String keyword : keywords) {
+
             try {
-                Type = dict.get(keywords.get(i)).toString();
-                if (!Type.equals("unknown")) {
-                    break;
+                resultSet = statement.executeQuery("select Type from Keyword where Keyword = '"+keyword+"'");
+                while (resultSet.next()) {
+                    Type = resultSet.getString("Type").toLowerCase();
                 }
             } catch (Exception e) {
+                System.out.println("fff");
             }
+
+            if (!Type.equals("unknown")) {
+                break;
+            }
+
+        }
+        try {
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            System.out.println("zz");
         }
         return Type;
 
     }
 
-    public static Hashtable Dictoionary() {
-        Hashtable dict = new Hashtable();
-
-        /**
-         * ***********social media************
-         */
-        dict.put("facebook", "social");
-        dict.put("twitter", "social");
-        dict.put("instgram", "social");
-        dict.put("whatsapp", "social");
-        /**
-         * ***********sports***********
-         */
-        dict.put("football", "sport");
-        dict.put("sports", "sport");
-        dict.put("the middle east ", "sport");
-        dict.put("africa", "sport");
-        dict.put("abo tricka", "sport");
-        dict.put("bascketball ", "sport");
-        dict.put("volleyball ", "sport");
-        dict.put("professional wrestling", "sport");
-        dict.put("karate", "sport");
-        /**
-         * ********music ***************
-         */
-        dict.put("record", "music");
-        dict.put("sounds", "music");
-        dict.put("audio", "music");
-        dict.put("record ", "music");
-        dict.put("trackes", "music");
-        dict.put("sound", "music");
-        /**
-         * **************games**********
-         */
-        dict.put("ubi soft", "games");
-        dict.put("ubi", "games");
-        dict.put("assassinscreed", "games");
-        dict.put("far cry", "games");
-        dict.put("games", "games");
-        dict.put("video game", "games");
-        dict.put("videogame", "games");
-        dict.put("video games", "games");
-        /**
-         * ***********news***************
-         */
-        dict.put("news", "news");
-        dict.put("breaking news", "news");
-        dict.put("latest news", "news");
-        dict.put("news online", "news");
-        dict.put("news", "news");
-        dict.put("weather", "news");
-        dict.put("law", "news");
-        dict.put("money", "news");
-        dict.put("reports", "news");
-        dict.put("special reports", "news");
-        /**
-         * ********************hacking ************************
-         */
-        dict.put("hacker", "hacking");
-        dict.put("hacking", "hacking");
-        /**
-         * *******************mail***********************
-         */
-        dict.put("email", "email");
-        dict.put("yahoo email", "email");
-        dict.put("contact email", "email");
-        dict.put("phone email", "email");
-        dict.put("gmail", "email");
-        /**
-         * **************************************
-         */
-
-        return dict;
-    }
+//    public static String CheckDictionary(ArrayList<String> keywords) {
+//        String Type = "unknown";
+//        Hashtable dict = new Hashtable(); // da l dictionary 
+//        dict = Dictoionary();
+//        for (int i = 0; i < keywords.size(); i++) {
+//            try {
+//                Type = dict.get(keywords.get(i)).toString();
+//                if (!Type.equals("unknown")) {
+//                    break;
+//                }
+//            } catch (Exception e) {
+//            }
+//        }
+//        return Type;
+//
+//    }
+//    public static Hashtable Dictoionary() {
+//        Hashtable dict = new Hashtable();
+//
+//        /**
+//         * ***********social media************
+//         */
+//        dict.put("facebook", "social");
+//        dict.put("twitter", "social");
+//        dict.put("instgram", "social");
+//        dict.put("whatsapp", "social");
+//        /**
+//         * ***********sports***********
+//         */
+//        dict.put("football", "sport");
+//        dict.put("sports", "sport");
+//        dict.put("the middle east ", "sport");
+//        dict.put("africa", "sport");
+//        dict.put("abo tricka", "sport");
+//        dict.put("bascketball ", "sport");
+//        dict.put("volleyball ", "sport");
+//        dict.put("professional wrestling", "sport");
+//        dict.put("karate", "sport");
+//        /**
+//         * ********music ***************
+//         */
+//        dict.put("record", "music");
+//        dict.put("sounds", "music");
+//        dict.put("audio", "music");
+//        dict.put("record ", "music");
+//        dict.put("trackes", "music");
+//        dict.put("sound", "music");
+//        /**
+//         * **************games**********
+//         */
+//        dict.put("ubi soft", "games");
+//        dict.put("ubi", "games");
+//        dict.put("assassinscreed", "games");
+//        dict.put("far cry", "games");
+//        dict.put("games", "games");
+//        dict.put("video game", "games");
+//        dict.put("videogame", "games");
+//        dict.put("video games", "games");
+//        /**
+//         * ***********news***************
+//         */
+//        dict.put("news", "news");
+//        dict.put("breaking news", "news");
+//        dict.put("latest news", "news");
+//        dict.put("news online", "news");
+//        dict.put("news", "news");
+//        dict.put("weather", "news");
+//        dict.put("law", "news");
+//        dict.put("money", "news");
+//        dict.put("reports", "news");
+//        dict.put("special reports", "news");
+//        /**
+//         * ********************hacking ************************
+//         */
+//        dict.put("hacker", "hacking");
+//        dict.put("hacking", "hacking");
+//        /**
+//         * *******************mail***********************
+//         */
+//        dict.put("email", "email");
+//        dict.put("yahoo email", "email");
+//        dict.put("contact email", "email");
+//        dict.put("phone email", "email");
+//        dict.put("gmail", "email");
+//        /**
+//         * **************************************
+//         */
+//
+//        return dict;
+//    }
 }

@@ -85,17 +85,18 @@ public class History extends SharedModel<Object> {
             URL = listOf_History_content.get(i).GetUrl();
             title = listOf_History_content.get(i).GetTitle();
             keywords_list = GetKeywords(URL);
+            System.out.println(i +") "+URL);
             if (!keywords_list.contains("NaN")) {
                 type = CheckDictionary(keywords_list);
                 types.add(type);
             } else {
                 keywords_list.clear();
                 keywords_list.addAll(GetTokens(URL));
+                //System.out.println(i +") "+ URL);
                 keywords_list.addAll(GetTokens(title));
                 type = CheckDictionary(keywords_list);
                 types.add(type);
             }
-
         }
         Percentage_list = GetPercentage(types);
         return Percentage_list;
