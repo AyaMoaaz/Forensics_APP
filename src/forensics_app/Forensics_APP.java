@@ -16,12 +16,19 @@ public class Forensics_APP {
 
     /**
      * @param args the command line arguments
+     * @throws org.json.simple.parser.ParseException
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws org.json.simple.parser.ParseException, IOException {
         
-        History hist = new History();
-        System.out.println(hist.Analysis(1));
-        
+        //History hist = new History();
+        //System.out.println(hist.Analysis(1));
+        if (SharedModel.isInternetReachable()){
+            //our code should be here
+            System.out.println("network connection available ");
+        }
+        else
+            System.out.println("check your internet connection");
 
     }
 
