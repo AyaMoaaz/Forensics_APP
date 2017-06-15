@@ -12,6 +12,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.StringTokenizer;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -53,6 +56,20 @@ public class SharedModel<E> extends ArrayList<E> {
     }
 
 
+    public static boolean isInternetReachable() {
+        try {
+            URL url = new URL("http://www.google.com");
+            HttpURLConnection urlConnect = (HttpURLConnection) url.openConnection();
+            Object objData = urlConnect.getContent();
+            return true;
+        } catch (UnknownHostException e) {
+            //e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            //e.printStackTrace();
+            return false;
+        }
+    }
     /*Description  : bn3ml array list of strings we na5od l url ntl3 l keywords bta3to we b3den n3mla 
     add fel list de 
     *we lw mlo4 keywords bn7ot NaN fe l list we we b3d keda n3mlha return	
