@@ -6,7 +6,6 @@
 package forensics_app;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  *
@@ -18,10 +17,24 @@ public class Forensics_APP {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws org.json.simple.parser.ParseException, IOException {
-        
+
         History hist = new History();
-        System.out.println(hist.Analysis(1));
-        
+        //System.out.println(hist.Analysis(1));
+//        System.out.println(hist.Analysis(1));
+//        Thread percentage = new Thread() {
+//            Boolean finish = false;
+//            public void run() {
+//                while (!finish) {
+//                    int i = hist.Urls_finished(1);
+//                    if (i < 100) {
+//                        System.out.print(i);
+//                    } else {
+//                        finish = true;
+//                    }
+//                }
+//            }
+//        };
+        GUI start = new GUI();
 
     }
 

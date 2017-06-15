@@ -1,18 +1,31 @@
-package apptest;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package forensics_app;
 
+import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 /**
  *
- * @author Ahmed
+ * @author m_ela
  */
 public class GUI extends JFrame {
 
     final static int interval = 1000;
     int i;
-    Timer t;
+    Thread H;
+    Thread B;
+    Thread D;
+    String x;
     JLabel text = new JLabel("Select Duration For Your Report");
     JButton report_btn = new JButton("Get Report");
     JLabel forensics = new JLabel(new ImageIcon("bg.jpg"));
@@ -20,7 +33,7 @@ public class GUI extends JFrame {
     JProgressBar pbar;
     JComboBox comboBox = new JComboBox(duration);
 
-    public GUI() {
+    public GUI() throws IOException {
         setSize(700, 640);
         setTitle("Forensics APP");
         setVisible(true);
@@ -53,7 +66,7 @@ public class GUI extends JFrame {
         report_btn.setFont(new Font("calibri", Font.PLAIN, 20));
         forensics.add(report_btn);
         int minimum = 0;
-        int maximum = 30;
+        int maximum = 100;
         pbar = new JProgressBar(minimum, maximum);
         pbar.setBounds(200, 550, 300, 30);
         pbar.setForeground(new Color(0, 137, 172));
@@ -62,26 +75,35 @@ public class GUI extends JFrame {
         pbar.setValue(0);
 
         forensics.add(pbar);
+        History hist = new History();
+        H = new Thread() {
+            public void run() {
+                try {
+                    x = String.valueOf(comboBox.getSelectedItem());
+                    int days = 0;
+                        switch (x){
+                            case "Month":days = 30;break;
+                            case "ALL" :days = -1;break;
+                            default: days = Character.getNumericValue(x.charAt(0));break; 
+                        }
+                    System.out.println(hist.Analysis(days, pbar) + "||" + days);
 
-        report_btn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                i = 0;
-                t.start();
-                report_btn.setEnabled(false);
-            }
-        });
-
-        t = new Timer(interval, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (i == maximum) {
-                    t.stop();
                     report_btn.setEnabled(true);
-                } else {
-                    i++;
-                    pbar.setValue(i);
+
+                } catch (IOException ex) {
+
                 }
             }
+
+        };
+        report_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                report_btn.setEnabled(false);
+                H.start();
+
+            }
         });
+
     }
 
 }

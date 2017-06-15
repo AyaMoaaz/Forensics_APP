@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -31,12 +32,22 @@ public class History extends SharedModel<Object> {
         HistoryContent hs = null;
         String user = System.getProperty("user.name");
         try {
+
             connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\" + user + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\History");
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("select url,title,last_visit_time "
-                    + "from urls "
-                    + "where last_visit_time > " + ParsingTime(time)
-                    + " order by last_visit_time desc");
+            if (time != -1) {
+                System.out.println(time+"......................");
+                resultSet = statement.executeQuery("select url,title,last_visit_time "
+                        + "from urls "
+                        + "where last_visit_time > " + ParsingTime(time)
+                        + " order by last_visit_time desc");
+            } else {
+                System.out.println(time+"......................");
+                resultSet = statement.executeQuery("select url,title,last_visit_time "
+                        + "from urls "
+                        + "where last_visit_time > " +time
+                        + " order by last_visit_time desc");
+            }
             while (resultSet.next()) {
                 hs = new HistoryContent();
                 hs.SetUrl(resultSet.getString("url"));
@@ -47,6 +58,7 @@ public class History extends SharedModel<Object> {
             resultSet.close();
             statement.close();
             connection.close();
+
             return listOf_History_content;
 
         } catch (Exception e) {
@@ -71,7 +83,7 @@ public class History extends SharedModel<Object> {
      *we b3d keda n3ml return lel 2d list de
      *return : 2d list ali rag3a mn function Percentage
      */
-    public static List<List> Analysis(int time) throws IOException {
+    public static List<List> Analysis(int time, JProgressBar PBar) throws IOException {
         List<List> Percentage_list = new ArrayList<List>();
         ArrayList<HistoryContent> listOf_History_content = new ArrayList<HistoryContent>();
         ArrayList<String> keywords_list = new ArrayList<String>();
@@ -79,13 +91,15 @@ public class History extends SharedModel<Object> {
         String type;
         String URL;
         String title;
+        int url_finshid;
         listOf_History_content = ReturnData(time);
-
-        for (int i = 0; i < listOf_History_content.size(); i++) {
+        int size = listOf_History_content.size();
+        for (int i = 0; i < size; i++) {
+            url_finshid = ((i + 1) * 100) / size;
             URL = listOf_History_content.get(i).GetUrl();
             title = listOf_History_content.get(i).GetTitle();
             keywords_list = GetKeywords(URL);
-            System.out.println(i +") "+URL);
+
             if (!keywords_list.contains("NaN")) {
                 type = CheckDictionary(keywords_list);
                 types.add(type);
@@ -97,6 +111,11 @@ public class History extends SharedModel<Object> {
                 type = CheckDictionary(keywords_list);
                 types.add(type);
             }
+            System.out.println(i + ") " + URL + "||" + url_finshid);
+
+            PBar.setValue(url_finshid);
+            PBar.update(PBar.getGraphics());
+
         }
         Percentage_list = GetPercentage(types);
         return Percentage_list;
