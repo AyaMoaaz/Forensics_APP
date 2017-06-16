@@ -55,7 +55,6 @@ public class SharedModel<E> extends ArrayList<E> {
         return count.get(element);
     }
 
-
     public static boolean isInternetReachable() {
         try {
             URL url = new URL("http://www.google.com");
@@ -70,6 +69,7 @@ public class SharedModel<E> extends ArrayList<E> {
             return false;
         }
     }
+
     /*Description  : bn3ml array list of strings we na5od l url ntl3 l keywords bta3to we b3den n3mla 
     add fel list de 
     *we lw mlo4 keywords bn7ot NaN fe l list we we b3d keda n3mlha return	
@@ -214,11 +214,11 @@ public class SharedModel<E> extends ArrayList<E> {
         } catch (Exception e) {
             System.out.println("error in connection");
         }
-        
+
         for (String keyword : keywords) {
 
             try {
-                resultSet = statement.executeQuery("select Type from Keyword where Keyword = '"+keyword+"'");
+                resultSet = statement.executeQuery("select Type from Keyword where Keyword = '" + keyword + "'");
                 while (resultSet.next()) {
                     Type = resultSet.getString("Type").toLowerCase();
                 }
