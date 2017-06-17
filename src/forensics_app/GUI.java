@@ -11,6 +11,7 @@ import java.awt.event.*;
 import java.io.IOException;
 import javax.swing.*;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
+import javax.swing.border.AbstractBorder;
 
 /**
  *
@@ -31,6 +32,7 @@ public class GUI extends JFrame {
     JCheckBox selectall;
     JPanel checkPanel;
     int days = 0;
+   
 
     public GUI() throws IOException {
         setTitle("Forensics APP");
@@ -75,6 +77,7 @@ public class GUI extends JFrame {
         history.setOpaque(false);
         history.setForeground(new Color(198, 218, 229));
         history.setBackground(new Color(0, 13, 30, 44));
+        history.setFont(new Font("calibri", Font.PLAIN, 16));
 
         bookmarks = new JCheckBox("Bookmarks");
         bookmarks.setMnemonic(KeyEvent.VK_B);
@@ -82,6 +85,7 @@ public class GUI extends JFrame {
         bookmarks.setOpaque(false);
         bookmarks.setForeground(new Color(198, 218, 229));
         bookmarks.setBackground(new Color(0, 13, 30, 44));
+        bookmarks.setFont(new Font("calibri", Font.PLAIN, 16));
 
         downloads = new JCheckBox("Downloads");
         downloads.setMnemonic(KeyEvent.VK_D);
@@ -89,6 +93,7 @@ public class GUI extends JFrame {
         downloads.setOpaque(false);
         downloads.setForeground(new Color(198, 218, 229));
         downloads.setBackground(new Color(0, 13, 30, 44));
+        downloads.setFont(new Font("calibri", Font.PLAIN, 16));
 
         selectall = new JCheckBox("Select All");
         selectall.setMnemonic(KeyEvent.VK_S);
@@ -96,6 +101,7 @@ public class GUI extends JFrame {
         selectall.setOpaque(false);
         selectall.setForeground(new Color(198, 218, 229));
         selectall.setBackground(new Color(0, 13, 30, 44));
+        selectall.setFont(new Font("calibri", Font.PLAIN, 16));
 
         checkPanel = new JPanel(new GridLayout(1, 1));
         checkPanel.setOpaque(false);
@@ -106,7 +112,7 @@ public class GUI extends JFrame {
         checkPanel.add(bookmarks);
         checkPanel.add(downloads);
         home.add(checkPanel, BorderLayout.CENTER);
-        home.setVisible(false);
+        //home.setVisible(false);
 
         report_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
@@ -132,12 +138,14 @@ public class GUI extends JFrame {
         int minimum = 0;
         int maximum = 100;
         pbar = new JProgressBar(minimum, maximum);
-        pbar.setBounds(200, 550, 300, 30);
-        pbar.setForeground(new Color(0, 137, 172));
-        pbar.setBackground(new Color(13, 30, 44));
+        pbar.setBounds(200, 500, 350, 50);
+        pbar.setFont(new Font("calibri", Font.PLAIN, 18));
+        pbar.setForeground(Color.decode("#0e4a60"));
+        pbar.setBackground(Color.decode("#02283f"));
         pbar.setStringPainted(true);
         pbar.setValue(0);
-
+        
+        
         home.add(pbar);
     }
 
