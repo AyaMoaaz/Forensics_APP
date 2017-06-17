@@ -30,6 +30,7 @@ public class GUI extends JFrame {
     JCheckBox downloads;
     JCheckBox selectall;
     JPanel checkPanel;
+    int days = 0;
 
     public GUI() throws IOException {
         setTitle("Forensics APP");
@@ -98,7 +99,7 @@ public class GUI extends JFrame {
 
         checkPanel = new JPanel(new GridLayout(1, 1));
         checkPanel.setOpaque(false);
-        checkPanel.setBounds(150, 350, 400, 50);
+        checkPanel.setBounds(150, 350, 450, 100);
 
         checkPanel.add(selectall);
         checkPanel.add(history);
@@ -109,8 +110,20 @@ public class GUI extends JFrame {
 
         report_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-
-                System.out.println(" ---------------- " + RunHistory());
+                x = String.valueOf(comboBox.getSelectedItem());
+                days = 0;
+                switch (x) {
+                    case "Month":
+                        days = 30;
+                        break;
+                    case "ALL":
+                        days = -1;
+                        break;
+                    default:
+                        days = Character.getNumericValue(x.charAt(0));
+                        break;
+                }
+                System.out.println(" ---------------- " + RunHistory(days));
 
             }
         });
@@ -128,22 +141,10 @@ public class GUI extends JFrame {
         home.add(pbar);
     }
 
-    public int RunHistory() {
+    public int RunHistory(int days) {
         try {
             History hist = new History();
-            x = String.valueOf(comboBox.getSelectedItem());
-            int days = 0;
-            switch (x) {
-                case "Month":
-                    days = 30;
-                    break;
-                case "ALL":
-                    days = -1;
-                    break;
-                default:
-                    days = Character.getNumericValue(x.charAt(0));
-                    break;
-            }
+
             System.out.println(hist.Analysis(days, pbar) + "||" + days);
             return hist.size;
         } catch (IOException ex) {
