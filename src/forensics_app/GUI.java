@@ -105,8 +105,8 @@ public class GUI extends JFrame {
         checkPanel.add(history);
         checkPanel.add(bookmarks);
         checkPanel.add(downloads);
-
         home.add(checkPanel, BorderLayout.CENTER);
+        home.setVisible(false);
 
         report_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
