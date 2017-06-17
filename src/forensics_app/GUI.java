@@ -69,29 +69,44 @@ public class GUI extends JFrame {
         home.add(report_btn);
 
         history = new JCheckBox("History");
-        history.setMnemonic(KeyEvent.VK_C);
-        history.setSelected(true);
+        history.setMnemonic(KeyEvent.VK_H);
+        history.setSelected(false);
+        history.setOpaque(false);
+        history.setForeground(new Color(198, 218, 229));
+        history.setBackground(new Color(0, 13, 30, 44));
 
         bookmarks = new JCheckBox("Bookmarks");
-        bookmarks.setMnemonic(KeyEvent.VK_G);
-        bookmarks.setSelected(true);
+        bookmarks.setMnemonic(KeyEvent.VK_B);
+        bookmarks.setSelected(false);
+        bookmarks.setOpaque(false);
+        bookmarks.setForeground(new Color(198, 218, 229));
+        bookmarks.setBackground(new Color(0, 13, 30, 44));
 
         downloads = new JCheckBox("Downloads");
-        downloads.setMnemonic(KeyEvent.VK_G);
-        downloads.setSelected(true);
+        downloads.setMnemonic(KeyEvent.VK_D);
+        downloads.setSelected(false);
+        downloads.setOpaque(false);
+        downloads.setForeground(new Color(198, 218, 229));
+        downloads.setBackground(new Color(0, 13, 30, 44));
 
         selectall = new JCheckBox("Select All");
-        selectall.setMnemonic(KeyEvent.VK_G);
-        selectall.setSelected(true);
-        
+        selectall.setMnemonic(KeyEvent.VK_S);
+        selectall.setSelected(false);
+        selectall.setOpaque(false);
+        selectall.setForeground(new Color(198, 218, 229));
+        selectall.setBackground(new Color(0, 13, 30, 44));
+
         checkPanel = new JPanel(new GridLayout(1, 1));
+        checkPanel.setOpaque(false);
+        checkPanel.setBounds(150, 350, 400, 50);
+
+        checkPanel.add(selectall);
         checkPanel.add(history);
         checkPanel.add(bookmarks);
         checkPanel.add(downloads);
-        checkPanel.add(selectall);
-        checkPanel.setBounds(150, 350, 400, 50);
-        home.add(checkPanel,BorderLayout.CENTER);
-        
+
+        home.add(checkPanel, BorderLayout.CENTER);
+
         report_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
 
@@ -110,7 +125,7 @@ public class GUI extends JFrame {
         pbar.setStringPainted(true);
         pbar.setValue(0);
 
-        // home.add(pbar);
+        home.add(pbar);
     }
 
     public int RunHistory() {
