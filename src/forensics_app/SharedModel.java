@@ -25,7 +25,13 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+//import org.jsoup.nodes.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 /**
  *
@@ -54,7 +60,7 @@ public class SharedModel<E> extends ArrayList<E> {
         }
         return count.get(element);
     }
-
+////////////////check connection
     public static boolean isInternetReachable() {
         try {
             URL url = new URL("http://www.google.com");
@@ -69,7 +75,29 @@ public class SharedModel<E> extends ArrayList<E> {
             return false;
         }
     }
-
+    ///////// pdfWriter
+    static int i=0;
+    public static void  writePDF(ArrayList<String> al) {
+        String fileName = "report "+i+".pdf";
+        i++;
+        Document document=null;
+        document = new Document();
+        try {
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
+            document.open();
+            for (String i : al) {
+                document.add(new Phrase(i + "\n"));
+            }
+            document.close();
+            writer.close();
+        }
+        catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    
     /*Description  : bn3ml array list of strings we na5od l url ntl3 l keywords bta3to we b3den n3mla 
     add fel list de 
     *we lw mlo4 keywords bn7ot NaN fe l list we we b3d keda n3mlha return	
@@ -77,10 +105,12 @@ public class SharedModel<E> extends ArrayList<E> {
      */
     public static ArrayList<String> GetKeywords(String URl) throws IOException {
         ArrayList<String> keywords_list = new ArrayList<String>();
-        Document doc = null;
+        org.jsoup.nodes.Document doc;
+        doc = null;
         String content = null;
         String[] split = {""};
         try {
+            //jsoup.nodes.Document doc;
             doc = Jsoup.connect(URl).userAgent("IE").get();
             content = (doc.select("head meta[name=keywords]").attr("content"));
             split = content.split("\\s*,\\s*");
