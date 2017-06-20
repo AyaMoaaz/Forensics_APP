@@ -32,7 +32,6 @@ public class GUI extends JFrame {
     JCheckBox selectall;
     JPanel checkPanel;
     int days = 0;
-   
 
     public GUI() throws IOException {
         setTitle("Forensics APP");
@@ -144,8 +143,7 @@ public class GUI extends JFrame {
         pbar.setBackground(Color.decode("#02283f"));
         pbar.setStringPainted(true);
         pbar.setValue(0);
-        
-        
+
         home.add(pbar);
     }
 
