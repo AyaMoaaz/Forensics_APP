@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.*;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.border.AbstractBorder;
@@ -38,7 +39,7 @@ public class GUI extends JFrame {
         setSize(700, 629);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         //setUndecorated (true);
-        setResizable(false);
+        //setResizable(false);
         setVisible(true);
         setLocation(330, 100);
 
@@ -71,37 +72,89 @@ public class GUI extends JFrame {
         home.add(report_btn);
 
         history = new JCheckBox("History");
+        history.setName("history");
         history.setMnemonic(KeyEvent.VK_H);
         history.setSelected(false);
         history.setOpaque(false);
         history.setForeground(new Color(198, 218, 229));
         history.setBackground(new Color(0, 13, 30, 44));
         history.setFont(new Font("calibri", Font.PLAIN, 16));
+        history.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent ie) {
+                if (history.isSelected() == false) {
+                    selectall.setSelected(false);
+                } else {
+                    if (bookmarks.isSelected() && downloads.isSelected() == true) {
+                        selectall.setSelected(true);
+                    }
+                }
+            }
+        });
 
         bookmarks = new JCheckBox("Bookmarks");
+        bookmarks.setName("bookmarks");
         bookmarks.setMnemonic(KeyEvent.VK_B);
         bookmarks.setSelected(false);
         bookmarks.setOpaque(false);
         bookmarks.setForeground(new Color(198, 218, 229));
         bookmarks.setBackground(new Color(0, 13, 30, 44));
         bookmarks.setFont(new Font("calibri", Font.PLAIN, 16));
+        bookmarks.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent ie) {
+                if (bookmarks.isSelected() == false) {
+                    selectall.setSelected(false);
+                } else {
+                    if (downloads.isSelected() && history.isSelected() == true) {
+                        selectall.setSelected(true);
+                    }
+                }
+            }
+        });
 
         downloads = new JCheckBox("Downloads");
+        downloads.setName("downloads");
         downloads.setMnemonic(KeyEvent.VK_D);
         downloads.setSelected(false);
         downloads.setOpaque(false);
         downloads.setForeground(new Color(198, 218, 229));
         downloads.setBackground(new Color(0, 13, 30, 44));
         downloads.setFont(new Font("calibri", Font.PLAIN, 16));
+        downloads.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent ie) {
+                if (downloads.isSelected() == false) {
+                    selectall.setSelected(false);
+                } else {
+                    if (bookmarks.isSelected() && history.isSelected() == true) {
+                        selectall.setSelected(true);
+                    }
+                }
+            }
+        });
 
         selectall = new JCheckBox("Select All");
+        selectall.setName("selectall");
         selectall.setMnemonic(KeyEvent.VK_S);
         selectall.setSelected(false);
         selectall.setOpaque(false);
         selectall.setForeground(new Color(198, 218, 229));
         selectall.setBackground(new Color(0, 13, 30, 44));
         selectall.setFont(new Font("calibri", Font.PLAIN, 16));
+        selectall.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent ie) {
 
+                if (selectall.isSelected()) {
+                    history.setSelected(true);
+                    bookmarks.setSelected(true);
+                    downloads.setSelected(true);
+                }
+
+            }
+        });
+        JCheckBox checklist[] = {selectall, history, bookmarks, downloads};
         checkPanel = new JPanel(new GridLayout(1, 1));
         checkPanel.setOpaque(false);
         checkPanel.setBounds(150, 350, 450, 100);
@@ -110,6 +163,7 @@ public class GUI extends JFrame {
         checkPanel.add(history);
         checkPanel.add(bookmarks);
         checkPanel.add(downloads);
+
         home.add(checkPanel, BorderLayout.CENTER);
         //home.setVisible(false);
 
@@ -129,6 +183,11 @@ public class GUI extends JFrame {
                         break;
                 }
                 System.out.println(" ---------------- " + RunHistory(days));
+                for (JCheckBox i : checklist) {
+                    if (i.isSelected()) {
+                        System.out.println(i.getName());
+                    }
+                }
 
             }
         });
