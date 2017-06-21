@@ -26,30 +26,29 @@ public class History extends SharedModel<Object> {
 //	*we b3d keda bn3ml list mn l object HistoryContent we nbd2 nfadi l resultset f object	
 //        *return : list of objects from HistoryContent
 //     */
-    public static ArrayList<HistoryContent> ReturnData(int time) {
+    public ArrayList<HistoryContent> ReturnData(int time) {
         Connection connection = null;
         ResultSet resultSet = null;
         Statement statement = null;
         ArrayList<HistoryContent> listOf_History_content = new ArrayList<HistoryContent>();
         HistoryContent hs = null;
+        String stime = "";
         String user = System.getProperty("user.name");
         try {
 
             connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\" + user + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\History");
             statement = connection.createStatement();
+
             if (time != -1) {
-                System.out.println(time + "......................");
-                resultSet = statement.executeQuery("select url,title,last_visit_time "
-                        + "from urls "
-                        + "where last_visit_time > " + ParsingTime(time)
-                        + " order by last_visit_time desc");
+                stime = ParsingTime(time);
+
             } else { // 34an y3ml select all lel data 
-                System.out.println(time + "......................");
-                resultSet = statement.executeQuery("select url,title,last_visit_time "
-                        + "from urls "
-                        + "where last_visit_time > " + time
-                        + " order by last_visit_time desc");
+                stime ="-1";
             }
+            resultSet = statement.executeQuery("select url,title,last_visit_time "
+                    + "from urls "
+                    + "where last_visit_time > " + stime
+                    + " order by last_visit_time desc");
             while (resultSet.next()) {
                 hs = new HistoryContent();
                 hs.SetUrl(resultSet.getString("url"));
@@ -85,7 +84,7 @@ public class History extends SharedModel<Object> {
 //     *we b3d keda n3ml return lel 2d list de
 //     *return : 2d list ali rag3a mn function Percentage
 //     */
-    public static List<List> Analysis(int time, JProgressBar PBar) throws IOException {
+    public List<List> Analysis(int time, JProgressBar PBar) throws IOException {
         List<List> Percentage_list = new ArrayList<List>();
         ArrayList<HistoryContent> listOf_History_content = new ArrayList<HistoryContent>();
         ArrayList<String> keywords_list = new ArrayList<String>();
@@ -100,7 +99,7 @@ public class History extends SharedModel<Object> {
 
             url_finshid = ((i + 1) * 100) / size;
             /**
-             * 
+             *
              */
             URL = listOf_History_content.get(i).GetUrl();
             title = listOf_History_content.get(i).GetTitle();

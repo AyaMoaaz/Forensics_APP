@@ -10,9 +10,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.border.AbstractBorder;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -21,6 +26,7 @@ import javax.swing.border.AbstractBorder;
 public class GUI extends JFrame {
 
     String x;
+    String name;
     JLabel text = new JLabel("Select Duration For Your Report");
     JButton report_btn = new JButton("Get Report");
     JLabel home = new JLabel(new ImageIcon("bg.jpg"));
@@ -32,6 +38,13 @@ public class GUI extends JFrame {
     JCheckBox downloads;
     JCheckBox selectall;
     JPanel checkPanel;
+    //farme 2
+    JLabel progress;
+    JLabel scan;
+    JLabel hist;
+    JLabel book;
+    JLabel down;
+
     int days = 0;
 
     public GUI() throws IOException {
@@ -44,8 +57,9 @@ public class GUI extends JFrame {
         setLocation(330, 100);
 
         add(home, BorderLayout.CENTER);
+        // home.setVisible(true);
         getRootPane().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#0e4a60")));
-
+        home.setVisible(true);
 //////////////////////////////////////////////
         home.setLayout(null);
         text.setBounds(100, 150, 300, 60);
@@ -155,20 +169,73 @@ public class GUI extends JFrame {
             }
         });
         JCheckBox checklist[] = {selectall, history, bookmarks, downloads};
+
         checkPanel = new JPanel(new GridLayout(1, 1));
         checkPanel.setOpaque(false);
         checkPanel.setBounds(150, 350, 450, 100);
-
         checkPanel.add(selectall);
         checkPanel.add(history);
         checkPanel.add(bookmarks);
         checkPanel.add(downloads);
 
         home.add(checkPanel, BorderLayout.CENTER);
-        //home.setVisible(false);
+
+////////////////////////////////////////////////////////////////////////// frame 2
+        progress = new JLabel(new ImageIcon("bg.jpg"));
+        scan = new JLabel("Scanning...");
+        hist = new JLabel("History");
+        book = new JLabel("Bookmarks");
+        down = new JLabel("Downloads");
+        add(progress);
+        progress.addComponentListener(new ComponentAdapter() {
+            public void componentShown(ComponentEvent e) {
+                int ssize = RunDownloads(days);
+
+            }
+        });
+        progress.setVisible(false);
+        progress.setLayout(null);
+        scan.setBounds(50, 130, 300, 60);
+        scan.setForeground(new Color(255, 255, 255));
+        scan.setFocusable(false);
+        scan.setFont(new Font("calibri", Font.BOLD, 23));
+        progress.add(scan);
+
+        hist.setBounds(50, 180, 300, 60);
+        hist.setForeground(new Color(198, 218, 229));
+        hist.setFocusable(false);
+        hist.setFont(new Font("calibri", Font.PLAIN, 22));
+        progress.add(hist);
+        hist.setVisible(false);
+
+        book.setBounds(50, 230, 300, 60);
+        book.setForeground(new Color(198, 218, 229));
+        book.setFocusable(false);
+        book.setFont(new Font("calibri", Font.PLAIN, 22));
+        progress.add(book);
+        book.setVisible(false);
+
+        down.setBounds(50, 280, 300, 60);
+        down.setForeground(new Color(198, 218, 229));
+        down.setFocusable(false);
+        down.setFont(new Font("calibri", Font.PLAIN, 22));
+        progress.add(down);
+        down.setVisible(false);
+
+        int minimum = 0;
+        int maximum = 100;
+        pbar = new JProgressBar(minimum, maximum);
+        pbar.setBounds(280, 280, 300, 30);
+        pbar.setFont(new Font("calibri", Font.PLAIN, 18));
+        pbar.setForeground(Color.decode("#0e4a60"));
+        pbar.setBackground(Color.decode("#02283f"));
+        pbar.setStringPainted(true);
+        pbar.setValue(0);
+        progress.add(pbar);
 
         report_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
+
                 x = String.valueOf(comboBox.getSelectedItem());
                 days = 0;
                 switch (x) {
@@ -182,36 +249,66 @@ public class GUI extends JFrame {
                         days = Character.getNumericValue(x.charAt(0));
                         break;
                 }
-                System.out.println(" ---------------- " + RunHistory(days));
-                for (JCheckBox i : checklist) {
-                    if (i.isSelected()) {
-                        System.out.println(i.getName());
+
+                if (checklist[0].isSelected() || checklist[1].isSelected()
+                        || checklist[2].isSelected() || checklist[3].isSelected()) {
+
+                    for (JCheckBox i : checklist) {
+                        if (i.isSelected()) {
+                            name = i.getName();
+                            switch (name) {
+                                case "selectall":
+                                    hist.setVisible(true);
+                                    book.setVisible(true);
+                                    down.setVisible(true);
+                                    break;
+                                case "history":
+                                    hist.setVisible(true);
+                                    break;
+                                case "bookmarks":
+                                    book.setVisible(true);
+                                    break;
+                                case "downloads":
+                                    down.setVisible(true);
+                                    break;
+                            }
+                        }
                     }
+                    home.setVisible(false);
+                    progress.setVisible(true);
                 }
 
             }
         });
-
-//////////////////////////////////////////////////////////////////////////
-        int minimum = 0;
-        int maximum = 100;
-        pbar = new JProgressBar(minimum, maximum);
-        pbar.setBounds(200, 500, 350, 50);
-        pbar.setFont(new Font("calibri", Font.PLAIN, 18));
-        pbar.setForeground(Color.decode("#0e4a60"));
-        pbar.setBackground(Color.decode("#02283f"));
-        pbar.setStringPainted(true);
-        pbar.setValue(0);
-
-        home.add(pbar);
     }
 
     public int RunHistory(int days) {
         try {
-            History hist = new History();
+            History history = new History();
+            history.Analysis(days, pbar);
+            return history.size;
+        } catch (IOException ex) {
 
-            System.out.println(hist.Analysis(days, pbar) + "||" + days);
-            return hist.size;
+        }
+        return 0;
+    }
+    
+    public int RunDownloads(int days) {
+        try {
+            Downloads downloads = new Downloads();
+            downloads.Analysis(days, pbar);
+            return downloads.size;
+        } catch (IOException ex) {
+
+        }
+        return 0;
+    }
+
+    public int RunBookmarks(int days) throws ParseException {
+        try {
+            Bookmarks bookmarks = new Bookmarks();
+            bookmarks.Analysis(days, pbar);
+            return bookmarks.size;
         } catch (IOException ex) {
 
         }
