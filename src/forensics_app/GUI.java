@@ -66,9 +66,68 @@ public class GUI extends JFrame {
     JButton back_btn;
     JButton save_btn;
 
+    JLabel noCon = new JLabel(new ImageIcon("noCon.png"));
+    JButton check_btn = new JButton("Check");
+    JLabel noConText = new JLabel("check your connection");
+
     int days = 0;
 
     public GUI() throws IOException {
+        checkCon();
+    }
+
+    public void checkCon() {
+        if (SharedModel.isInternetReachable() == true) {
+            startGUI();
+        } else {
+            noConGUI();
+        }
+    }
+
+    public void noConGUI() {
+        home.removeAll();
+        setTitle("Forensics APP");
+        setSize(700, 629);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
+        setLocation(330, 100);
+        add(home, BorderLayout.CENTER);
+        getRootPane().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#0e4a60")));
+        home.setVisible(true);
+
+        home.setLayout(null);
+        noCon.setBounds(0, 150, 300, 60);
+        noCon.setForeground(new Color(198, 218, 229));
+        noCon.setFocusable(false);
+        noCon.setFont(new Font("calibri", Font.PLAIN, 19));
+        home.add(noCon);
+
+        noConText.setBounds(180, 160, 250, 45);
+        noConText.setForeground(new Color(198, 218, 229));
+        noConText.setFocusable(false);
+        noConText.setFont(new Font("calibri", Font.PLAIN, 19));
+        home.add(noConText);
+
+        check_btn.setBounds(260, 300, 150, 40);
+        check_btn.setForeground(new Color(198, 218, 229));
+        check_btn.setBackground(new Color(0, 13, 30, 44));
+        check_btn.setOpaque(false);
+        check_btn.setFocusPainted(false);
+        check_btn.setBorderPainted(false);
+        check_btn.setContentAreaFilled(false);
+        check_btn.setFont(new Font("calibri", Font.PLAIN, 20));
+        home.add(check_btn);
+        check_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkCon();
+            }
+        });
+
+    }
+
+    public void startGUI() {
+        home.removeAll();
         setTitle("Forensics APP");
         setSize(700, 629);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -537,8 +596,8 @@ public class GUI extends JFrame {
         });
 
     }
-/////////////////Run functions//////////////////////
 
+/////////////////Run functions//////////////////////
     public void RunHistory(int days) {
         try {
             pbar.setValue(0);
