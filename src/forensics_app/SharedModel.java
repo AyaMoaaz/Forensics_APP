@@ -221,15 +221,15 @@ public class SharedModel<E> extends ArrayList<E> {
         return x3.toString();
     }
 
-    public static Date ParsingTimestamp(String timestamp) {
-        BigInteger db_value = new BigInteger(timestamp);
-        BigInteger sub = new BigInteger("11644473600");
-        BigInteger div = new BigInteger("1000000");
-        BigInteger result = (db_value.divide(div)).subtract(sub);
-        Timestamp stamp = new Timestamp(result.longValue() * 1000);
-        Date date_stamp = new Date(stamp.getTime());// el stamp 3la 4kl date (old);
-        return date_stamp;
-    }
+//    public static Date ParsingTimestamp(String timestamp) {
+//        BigInteger db_value = new BigInteger(timestamp);
+//        BigInteger sub = new BigInteger("11644473600");
+//        BigInteger div = new BigInteger("1000000");
+//        BigInteger result = (db_value.divide(div)).subtract(sub);
+//        Timestamp stamp = new Timestamp(result.longValue() * 1000);
+//        Date date_stamp = new Date(stamp.getTime());// el stamp 3la 4kl date (old);
+//        return date_stamp;
+//    }
 
     public static String CheckDictionary(ArrayList<String> keywords) {
         Connection connection = null;

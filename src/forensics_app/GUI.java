@@ -76,6 +76,7 @@ public class GUI extends JFrame {
         setLocation(330, 100);
 
         add(home, BorderLayout.CENTER);
+        pack();
         getRootPane().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#0e4a60")));
         home.setVisible(true);
 //////////////////////////////////////////////
@@ -201,7 +202,7 @@ public class GUI extends JFrame {
 ////////////////////////////////////////////////////////////////////////// frame 2
         progress = new JLabel(new ImageIcon("bg.jpg"));
 
-        add(progress);
+        add(progress, BorderLayout.CENTER);
         progress.addComponentListener(new ComponentAdapter() {
             public void componentShown(ComponentEvent e) {
                 loop:
