@@ -79,8 +79,8 @@ public class Bookmarks extends SharedModel<Object> {
      *return : 2d list ali rag3a mn function Percentage
      */
     //
-    List<ArrayList<String>> Analysis(int time,JProgressBar PBar) throws org.json.simple.parser.ParseException, IOException {
-        List Percentage_list = new ArrayList<ArrayList<String>>();
+    List<List> Analysis(int time, JProgressBar PBar) throws org.json.simple.parser.ParseException, IOException {
+        List<List> Percentage_list = new ArrayList<List>();
         ArrayList<BookmarksContent> list_bookmarks = new ArrayList<BookmarksContent>();
         ArrayList<String> keywords_list = new ArrayList<String>();
         ArrayList<String> types_list = new ArrayList<String>();

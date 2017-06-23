@@ -9,15 +9,10 @@ import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
-import javax.swing.border.AbstractBorder;
-import javax.swing.plaf.basic.BasicComboBoxUI;
 import org.json.simple.parser.ParseException;
+import java.util.List;
 
 /**
  *
@@ -189,7 +184,7 @@ public class GUI extends JFrame {
         add(progress);
         progress.addComponentListener(new ComponentAdapter() {
             public void componentShown(ComponentEvent e) {
-                int ssize = RunDownloads(days);
+//                int ssize = RunHistory(days);
 
             }
         });
@@ -282,21 +277,21 @@ public class GUI extends JFrame {
         });
     }
 
-    public int RunHistory(int days) {
+    public int RunHistory(int days, List<List> hist_result) {
         try {
             History history = new History();
-            history.Analysis(days, pbar);
+            hist_result = history.Analysis(days, pbar);
             return history.size;
         } catch (IOException ex) {
 
         }
         return 0;
     }
-    
-    public int RunDownloads(int days) {
+
+    public int RunDownloads(int days, List<List> down_result) {
         try {
             Downloads downloads = new Downloads();
-            downloads.Analysis(days, pbar);
+            down_result = downloads.Analysis(days, pbar);
             return downloads.size;
         } catch (IOException ex) {
 
@@ -304,10 +299,10 @@ public class GUI extends JFrame {
         return 0;
     }
 
-    public int RunBookmarks(int days) throws ParseException {
+    public int RunBookmarks(int days,List<List> book_result) throws ParseException {
         try {
             Bookmarks bookmarks = new Bookmarks();
-            bookmarks.Analysis(days, pbar);
+           book_result = bookmarks.Analysis(days, pbar);
             return bookmarks.size;
         } catch (IOException ex) {
 
