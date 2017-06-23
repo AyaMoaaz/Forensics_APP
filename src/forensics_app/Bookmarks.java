@@ -111,6 +111,8 @@ public class Bookmarks extends SharedModel<Object> {
             PBar.setValue(url_finshid);
             PBar.update(PBar.getGraphics());
         }
+        PBar.setValue(100);
+        PBar.update(PBar.getGraphics());
         Percentage_list = GetPercentage(types_list);
         return Percentage_list;
     }

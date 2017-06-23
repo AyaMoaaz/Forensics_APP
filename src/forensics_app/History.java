@@ -43,7 +43,7 @@ public class History extends SharedModel<Object> {
                 stime = ParsingTime(time);
 
             } else { // 34an y3ml select all lel data 
-                stime ="-1";
+                stime = "-1";
             }
             resultSet = statement.executeQuery("select url,title,last_visit_time "
                     + "from urls "
@@ -117,10 +117,14 @@ public class History extends SharedModel<Object> {
             }
             System.out.println(i + ") " + URL + "||" + url_finshid);
             // bnb3t l finished percentage lel progress bar
+
             PBar.setValue(url_finshid);
             PBar.update(PBar.getGraphics());
 
         }
+        PBar.setValue(100);
+        PBar.update(PBar.getGraphics());
+
         Percentage_list = GetPercentage(types);
         return Percentage_list;
     }

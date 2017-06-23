@@ -192,11 +192,11 @@ public class SharedModel<E> extends ArrayList<E> {
     public static List<List> GetPercentage(ArrayList<String> Types_list) {
         List<List> Percentage_list = new ArrayList<List>();
         ArrayList<String> types = new ArrayList<String>();
-        ArrayList<Double> vals = new ArrayList<Double>();
+        ArrayList<Integer> vals = new ArrayList<Integer>();
         for (String typo : Types_list) {
             if (!types.contains(typo)) {
                 int sum = Collections.frequency(Types_list, typo);
-                double total = ((double) sum * 100 / (double) Types_list.size());
+                int total = ( sum * 100 /  Types_list.size());
                 types.add(typo);
                 vals.add(total);
             }

@@ -19,7 +19,7 @@ import javax.swing.JProgressBar;
  *
  * @author Ayaa
  */
-public class Downloads extends SharedModel<Object>{
+public class Downloads extends SharedModel<Object> {
 
     static public int size;
 
@@ -49,12 +49,12 @@ public class Downloads extends SharedModel<Object>{
                     + "from downloads "
                     + "where start_time > " + stime
                     + " order by start_time desc");
-            String mime ="";
+            String mime = "";
             String[] parts;
             while (resultSet.next()) {
                 Download = new DownloadsContent();
                 Download.SetUrl(resultSet.getString("tab_url"));
-                mime=resultSet.getString("mime_type");
+                mime = resultSet.getString("mime_type");
                 parts = mime.split("/");
                 Download.SetMimeType(parts[0]);
                 Download.SetTime(mime);
@@ -84,12 +84,14 @@ public class Downloads extends SharedModel<Object>{
         int url_finshid;
         ArrayList<String> Mime_Type = new ArrayList<String>();
         size = Data_List.size();
-        for (int i = 0; i <size; i++) {
+        for (int i = 0; i < size; i++) {
             url_finshid = ((i + 1) * 100) / size;
             Mime_Type.add(Data_List.get(i).GetMimeType());
             PBar.setValue(url_finshid);
             PBar.update(PBar.getGraphics());
         }
+        PBar.setValue(100);
+        PBar.update(PBar.getGraphics());
         Percentage_list = GetPercentage(Mime_Type);
 
         return Percentage_list;

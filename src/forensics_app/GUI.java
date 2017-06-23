@@ -9,10 +9,13 @@ import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.*;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import org.json.simple.parser.ParseException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,6 +25,11 @@ public class GUI extends JFrame {
 
     String x;
     String name;
+    List<List> hist_result = new ArrayList<List>();
+    List<List> book_result = new ArrayList<List>();
+    List<List> down_result = new ArrayList<List>();
+
+    //frame 1
     JLabel text = new JLabel("Select Duration For Your Report");
     JButton report_btn = new JButton("Get Report");
     JLabel home = new JLabel(new ImageIcon("bg.jpg"));
@@ -36,9 +44,27 @@ public class GUI extends JFrame {
     //farme 2
     JLabel progress;
     JLabel scan;
+
     JLabel hist;
+    JLabel history_urls;
+    JLabel hist_analysis;
+    JLabel hist_performance;
+    JLabel hist_type;
+
     JLabel book;
+    JLabel bookmarks_urls;
+    JLabel book_analysis;
+    JLabel book_performance;
+    JLabel book_type;
+
     JLabel down;
+    JLabel downloads_urls;
+    JLabel down_analysis;
+    JLabel down_performance;
+    JLabel down_type;
+
+    JButton back_btn;
+    JButton save_btn;
 
     int days = 0;
 
@@ -46,13 +72,10 @@ public class GUI extends JFrame {
         setTitle("Forensics APP");
         setSize(700, 629);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //setUndecorated (true);
-        //setResizable(false);
         setVisible(true);
         setLocation(330, 100);
 
         add(home, BorderLayout.CENTER);
-        // home.setVisible(true);
         getRootPane().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#0e4a60")));
         home.setVisible(true);
 //////////////////////////////////////////////
@@ -177,25 +200,103 @@ public class GUI extends JFrame {
 
 ////////////////////////////////////////////////////////////////////////// frame 2
         progress = new JLabel(new ImageIcon("bg.jpg"));
-        scan = new JLabel("Scanning...");
-        hist = new JLabel("History");
-        book = new JLabel("Bookmarks");
-        down = new JLabel("Downloads");
+
         add(progress);
         progress.addComponentListener(new ComponentAdapter() {
             public void componentShown(ComponentEvent e) {
-//                int ssize = RunHistory(days);
+                loop:
+                for (JCheckBox i : checklist) {
+                    if (i.isSelected()) {
+                        name = i.getName();
+                        switch (name) {
+                            case "selectall":
+                                RunHistory(days);
+                                System.out.println("history complate" + "||" + hist_result);
+                                try {
+                                    RunBookmarks(days);
+                                    System.out.println("bookmarks complate " + "||" + book_result);
+                                } catch (ParseException ex) {
+                                }
+                                RunDownloads(days);
+                                System.out.println("downloads complate" + "||" + down_result);
+                                break loop;
+                            case "history":
+                                RunHistory(days);
+                                System.out.println("history complate" + "||" + hist_result);
+                                break;
+                            case "bookmarks":
+                                try {
+                                    RunBookmarks(days);
+                                    System.out.println("bookmarks complate" + "||" + book_result);
+                                } catch (ParseException ex) {
+                                }
+                                break;
+                            case "downloads":
+                                RunDownloads(days);
+                                System.out.println("downloads complate" + "||" + down_result);
+                                break;
+                        }
+                    }
+                }
+                scan.setText("Summary");
+                pbar.setVisible(false);
+                loop2:
+                for (JCheckBox i : checklist) {
+                    if (i.isSelected()) {
+                        name = i.getName();
+                        switch (name) {
+                            case "selectall":
+                                history_urls.setVisible(true);
+                                hist_analysis.setVisible(true);
+                                hist_performance.setVisible(true);
+                                hist_type.setVisible(true);
+
+                                downloads_urls.setVisible(true);
+                                down_analysis.setVisible(true);
+                                down_performance.setVisible(true);
+                                down_type.setVisible(true);
+
+                                bookmarks_urls.setVisible(true);
+                                book_analysis.setVisible(true);
+                                book_performance.setVisible(true);
+                                book_type.setVisible(true);
+                                break loop2;
+                            case "history":
+                                history_urls.setVisible(true);
+                                hist_analysis.setVisible(true);
+                                hist_performance.setVisible(true);
+                                hist_type.setVisible(true);
+                                break;
+                            case "bookmarks":
+                                bookmarks_urls.setVisible(true);
+                                book_analysis.setVisible(true);
+                                book_performance.setVisible(true);
+                                book_type.setVisible(true);
+                                break;
+                            case "downloads":
+                                downloads_urls.setVisible(true);
+                                down_analysis.setVisible(true);
+                                down_performance.setVisible(true);
+                                down_type.setVisible(true);
+                                break;
+                        }
+                    }
+                }
 
             }
         });
         progress.setVisible(false);
         progress.setLayout(null);
+
+        scan = new JLabel("Scanning...");
         scan.setBounds(50, 130, 300, 60);
         scan.setForeground(new Color(255, 255, 255));
         scan.setFocusable(false);
         scan.setFont(new Font("calibri", Font.BOLD, 23));
         progress.add(scan);
 
+        //*history*//
+        hist = new JLabel("History");
         hist.setBounds(50, 180, 300, 60);
         hist.setForeground(new Color(198, 218, 229));
         hist.setFocusable(false);
@@ -203,6 +304,42 @@ public class GUI extends JFrame {
         progress.add(hist);
         hist.setVisible(false);
 
+        history_urls = new JLabel("1235");
+        history_urls.setBounds(180, 180, 300, 60);
+        //#fd6027
+        history_urls.setForeground(Color.decode("#fd6027"));
+        history_urls.setFocusable(false);
+        history_urls.setFont(new Font("calibri", Font.PLAIN, 18));
+        progress.add(history_urls);
+        history_urls.setVisible(false);
+
+        hist_analysis = new JLabel("History Analysis");
+        hist_analysis.setBounds(260, 230, 300, 60);
+        hist_analysis.setForeground(new Color(198, 218, 229));
+        hist_analysis.setFocusable(false);
+        hist_analysis.setFont(new Font("calibri", Font.PLAIN, 17));
+        progress.add(hist_analysis);
+        hist_analysis.setVisible(false);
+
+        hist_performance = new JLabel("80%");
+        hist_performance.setBounds(300, 270, 300, 60);
+        hist_performance.setForeground(new Color(244, 116, 66));
+        hist_performance.setFocusable(false);
+        hist_performance.setFont(new Font("calibri", Font.BOLD, 26));
+        progress.add(hist_performance);
+        hist_performance.setVisible(false);
+
+        hist_type = new JLabel("Facebook ");
+        hist_type.setBounds(280, 310, 300, 60);
+        hist_type.setForeground(new Color(198, 218, 229));
+        hist_type.setFocusable(false);
+        hist_type.setFont(new Font("calibri", Font.PLAIN, 17));
+        progress.add(hist_type);
+        hist_type.setVisible(false);
+        //**//
+
+        //*bookmarks*//
+        book = new JLabel("Bookmarks");
         book.setBounds(50, 230, 300, 60);
         book.setForeground(new Color(198, 218, 229));
         book.setFocusable(false);
@@ -210,6 +347,41 @@ public class GUI extends JFrame {
         progress.add(book);
         book.setVisible(false);
 
+        bookmarks_urls = new JLabel("12");
+        bookmarks_urls.setBounds(180, 230, 300, 60);
+        bookmarks_urls.setForeground(Color.decode("#fd6027"));
+        bookmarks_urls.setFocusable(false);
+        bookmarks_urls.setFont(new Font("calibri", Font.PLAIN, 18));
+        progress.add(bookmarks_urls);
+        bookmarks_urls.setVisible(false);
+
+        book_analysis = new JLabel("Bookmarks Analysis");
+        book_analysis.setBounds(390, 230, 300, 60);
+        book_analysis.setForeground(new Color(198, 218, 229));
+        book_analysis.setFocusable(false);
+        book_analysis.setFont(new Font("calibri", Font.PLAIN, 17));
+        progress.add(book_analysis);
+        book_analysis.setVisible(false);
+
+        book_performance = new JLabel("10%");
+        book_performance.setBounds(430, 270, 300, 60);
+        book_performance.setForeground(new Color(244, 116, 66));
+        book_performance.setFocusable(false);
+        book_performance.setFont(new Font("calibri", Font.BOLD, 26));
+        progress.add(book_performance);
+        book_performance.setVisible(false);
+
+        book_type = new JLabel("Wiki");
+        book_type.setBounds(430, 310, 300, 60);
+        book_type.setForeground(new Color(198, 218, 229));
+        book_type.setFocusable(false);
+        book_type.setFont(new Font("calibri", Font.PLAIN, 17));
+        progress.add(book_type);
+        book_type.setVisible(false);
+        //**//
+
+        //*downloads*//
+        down = new JLabel("Downloads");
         down.setBounds(50, 280, 300, 60);
         down.setForeground(new Color(198, 218, 229));
         down.setFocusable(false);
@@ -217,6 +389,39 @@ public class GUI extends JFrame {
         progress.add(down);
         down.setVisible(false);
 
+        downloads_urls = new JLabel("125");
+        downloads_urls.setBounds(180, 280, 300, 60);
+        //#fd6027
+        downloads_urls.setForeground(Color.decode("#fd6027"));
+        downloads_urls.setFocusable(false);
+        downloads_urls.setFont(new Font("calibri", Font.PLAIN, 18));
+        progress.add(downloads_urls);
+        downloads_urls.setVisible(false);
+
+        down_analysis = new JLabel("Downloads Analysis");
+        down_analysis.setBounds(545, 230, 300, 60);
+        down_analysis.setForeground(new Color(198, 218, 229));
+        down_analysis.setFocusable(false);
+        down_analysis.setFont(new Font("calibri", Font.PLAIN, 17));
+        progress.add(down_analysis);
+        down_analysis.setVisible(false);
+
+        down_performance = new JLabel("10%");
+        down_performance.setBounds(585, 270, 300, 60);
+        down_performance.setForeground(new Color(244, 116, 66));
+        down_performance.setFocusable(false);
+        down_performance.setFont(new Font("calibri", Font.BOLD, 26));
+        progress.add(down_performance);
+        down_performance.setVisible(false);
+
+        down_type = new JLabel("Images and Music");
+        down_type.setBounds(550, 310, 300, 60);
+        down_type.setForeground(new Color(198, 218, 229));
+        down_type.setFocusable(false);
+        down_type.setFont(new Font("calibri", Font.PLAIN, 17));
+        progress.add(down_type);
+        down_type.setVisible(false);
+        //**//
         int minimum = 0;
         int maximum = 100;
         pbar = new JProgressBar(minimum, maximum);
@@ -248,6 +453,7 @@ public class GUI extends JFrame {
                 if (checklist[0].isSelected() || checklist[1].isSelected()
                         || checklist[2].isSelected() || checklist[3].isSelected()) {
 
+                    loop:
                     for (JCheckBox i : checklist) {
                         if (i.isSelected()) {
                             name = i.getName();
@@ -256,7 +462,7 @@ public class GUI extends JFrame {
                                     hist.setVisible(true);
                                     book.setVisible(true);
                                     down.setVisible(true);
-                                    break;
+                                    break loop;
                                 case "history":
                                     hist.setVisible(true);
                                     break;
@@ -275,38 +481,52 @@ public class GUI extends JFrame {
 
             }
         });
-    }
 
-    public int RunHistory(int days, List<List> hist_result) {
+    }
+/////////////////Run functions//////////////////////
+
+    public void RunHistory(int days) {
         try {
+            pbar.setValue(0);
+            pbar.update(pbar.getGraphics());
             History history = new History();
             hist_result = history.Analysis(days, pbar);
-            return history.size;
+            System.out.println(hist_result);
+            history_urls.setText(String.valueOf(history.size));
+            hist_performance.setText(String.valueOf(hist_result.get(1).get(0))+"%" );
+            hist_type.setText(String.valueOf(hist_result.get(0).get(0)));
         } catch (IOException ex) {
-
         }
-        return 0;
     }
 
-    public int RunDownloads(int days, List<List> down_result) {
+    public void RunDownloads(int days) {
         try {
+            pbar.setValue(0);
+            pbar.update(pbar.getGraphics());
             Downloads downloads = new Downloads();
             down_result = downloads.Analysis(days, pbar);
-            return downloads.size;
+            downloads_urls.setText(String.valueOf(downloads.size));
+            down_performance.setText(String.valueOf(down_result.get(1).get(0))+"%");
+            down_type.setText(String.valueOf(down_result.get(0).get(0)));
         } catch (IOException ex) {
 
         }
-        return 0;
+
     }
 
-    public int RunBookmarks(int days,List<List> book_result) throws ParseException {
+    public void RunBookmarks(int days) throws ParseException {
         try {
+            pbar.setValue(0);
+            pbar.update(pbar.getGraphics());
             Bookmarks bookmarks = new Bookmarks();
-           book_result = bookmarks.Analysis(days, pbar);
-            return bookmarks.size;
+            book_result = bookmarks.Analysis(days, pbar);
+            bookmarks_urls.setText(String.valueOf(bookmarks.size));
+            book_performance.setText(String.valueOf(book_result.get(1).get(0))+"%");
+            book_type.setText(String.valueOf(book_result.get(0).get(0)));
         } catch (IOException ex) {
 
         }
-        return 0;
+
     }
+
 }
