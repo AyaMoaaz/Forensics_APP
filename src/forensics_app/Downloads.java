@@ -87,6 +87,7 @@ public class Downloads extends SharedModel<Object> {
         for (int i = 0; i < size; i++) {
             url_finshid = ((i + 1) * 100) / size;
             Mime_Type.add(Data_List.get(i).GetMimeType());
+            System.out.println(i + ") " + Data_List.get(i).GetMimeType() + "||" + url_finshid);
             PBar.setValue(url_finshid);
             PBar.update(PBar.getGraphics());
         }

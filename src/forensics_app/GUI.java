@@ -240,6 +240,8 @@ public class GUI extends JFrame {
                 }
                 scan.setText("Summary");
                 pbar.setVisible(false);
+                save_btn.setVisible(true);
+                back_btn.setVisible(true);
                 loop2:
                 for (JCheckBox i : checklist) {
                     if (i.isSelected()) {
@@ -422,6 +424,57 @@ public class GUI extends JFrame {
         progress.add(down_type);
         down_type.setVisible(false);
         //**//
+        save_btn = new JButton("Save as PDF");
+        save_btn.setBounds(420, 530, 150, 40);
+        save_btn.setForeground(new Color(198, 218, 229));
+        save_btn.setBackground(new Color(0, 13, 30, 44));
+        save_btn.setOpaque(false);
+        save_btn.setFocusPainted(false);
+        save_btn.setBorderPainted(false);
+        save_btn.setContentAreaFilled(false);
+        save_btn.setFont(new Font("calibri", Font.PLAIN, 22));
+        progress.add(save_btn);
+        save_btn.setVisible(false);
+
+        back_btn = new JButton("Back");
+        back_btn.setBounds(280, 530, 150, 40);
+        back_btn.setForeground(new Color(198, 218, 229));
+        back_btn.setBackground(new Color(0, 13, 30, 44));
+        back_btn.setOpaque(false);
+        back_btn.setFocusPainted(false);
+        back_btn.setBorderPainted(false);
+        back_btn.setContentAreaFilled(false);
+        back_btn.setFont(new Font("calibri", Font.PLAIN, 22));
+        progress.add(back_btn);
+        back_btn.setVisible(false);
+        back_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                progress.setVisible(false);
+                home.setVisible(true);
+
+                history_urls.setVisible(false);
+                hist_analysis.setVisible(false);
+                hist_performance.setVisible(false);
+                hist_type.setVisible(false);
+
+                downloads_urls.setVisible(false);
+                down_analysis.setVisible(false);
+                down_performance.setVisible(false);
+                down_type.setVisible(false);
+
+                bookmarks_urls.setVisible(false);
+                book_analysis.setVisible(false);
+                book_performance.setVisible(false);
+                book_type.setVisible(false);
+
+                scan.setText("Scanning...");
+                pbar.setVisible(true);
+                save_btn.setVisible(false);
+                back_btn.setVisible(false);
+
+            }
+        });
+
         int minimum = 0;
         int maximum = 100;
         pbar = new JProgressBar(minimum, maximum);
@@ -493,7 +546,7 @@ public class GUI extends JFrame {
             hist_result = history.Analysis(days, pbar);
             System.out.println(hist_result);
             history_urls.setText(String.valueOf(history.size));
-            hist_performance.setText(String.valueOf(hist_result.get(1).get(0))+"%" );
+            hist_performance.setText(String.valueOf(hist_result.get(1).get(0)) + "%");
             hist_type.setText(String.valueOf(hist_result.get(0).get(0)));
         } catch (IOException ex) {
         }
@@ -506,7 +559,7 @@ public class GUI extends JFrame {
             Downloads downloads = new Downloads();
             down_result = downloads.Analysis(days, pbar);
             downloads_urls.setText(String.valueOf(downloads.size));
-            down_performance.setText(String.valueOf(down_result.get(1).get(0))+"%");
+            down_performance.setText(String.valueOf(down_result.get(1).get(0)) + "%");
             down_type.setText(String.valueOf(down_result.get(0).get(0)));
         } catch (IOException ex) {
 
@@ -521,7 +574,7 @@ public class GUI extends JFrame {
             Bookmarks bookmarks = new Bookmarks();
             book_result = bookmarks.Analysis(days, pbar);
             bookmarks_urls.setText(String.valueOf(bookmarks.size));
-            book_performance.setText(String.valueOf(book_result.get(1).get(0))+"%");
+            book_performance.setText(String.valueOf(book_result.get(1).get(0)) + "%");
             book_type.setText(String.valueOf(book_result.get(0).get(0)));
         } catch (IOException ex) {
 
