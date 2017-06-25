@@ -30,7 +30,9 @@ public class GUI extends JFrame {
     List<List> down_result = new ArrayList<List>();
 
     //frame 1
-    JLabel text = new JLabel("Select Duration For Your Report");
+    JLabel text = new JLabel("Select Duration For Your Report"); 
+    JLabel text2 = new JLabel("Choose at least one File");
+
     JButton report_btn = new JButton("Get Report");
     JLabel home = new JLabel(new ImageIcon("bg.jpg"));
     String[] duration = {"1 Days", "2 Days", "3 Days", "4 Days", "5 Days", "6 Days", "Month", "ALL"};
@@ -153,7 +155,7 @@ public class GUI extends JFrame {
         comboBox.setFont(new Font("calibri", Font.PLAIN, 18));
         home.add(comboBox);
 
-        report_btn.setBounds(260, 300, 150, 40);
+        report_btn.setBounds(270, 500, 150, 40);
         report_btn.setForeground(new Color(198, 218, 229));
         report_btn.setBackground(new Color(0, 13, 30, 44));
         report_btn.setOpaque(false);
@@ -246,11 +248,19 @@ public class GUI extends JFrame {
 
             }
         });
+        
+        
+         text2.setBounds(100, 210, 300, 60);
+        text2.setForeground(new Color(198, 218, 229));
+        text2.setFocusable(false);
+        text2.setFont(new Font("calibri", Font.PLAIN,20));
+        home.add(text2);
+        
         JCheckBox checklist[] = {selectall, history, bookmarks, downloads};
 
-        checkPanel = new JPanel(new GridLayout(1, 1));
+        checkPanel = new JPanel(new GridLayout(0, 1));
         checkPanel.setOpaque(false);
-        checkPanel.setBounds(150, 350, 450, 100);
+        checkPanel.setBounds(420, 230, 400, 100);
         checkPanel.add(selectall);
         checkPanel.add(history);
         checkPanel.add(bookmarks);
