@@ -8,6 +8,7 @@ package forensics_app;
 import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -75,10 +76,18 @@ public class GUI extends JFrame {
     int days = 0;
 
     public GUI() throws IOException {
-        checkCon();
-        final_result.add(null);
-        final_result.add(null);
-        final_result.add(null);
+
+        String user = System.getProperty("user.name");
+        File file = new File("C:\\Users\\" + user + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default");
+        if (!file.isDirectory()) {
+            JOptionPane.showMessageDialog(null, "make sure chrome is insallted");
+        } else {
+            checkCon();
+            final_result.add(null);
+            final_result.add(null);
+            final_result.add(null);
+        }
+
     }
 
     public void checkCon() {
@@ -526,13 +535,13 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 progress.setVisible(false);
                 home.setVisible(true);
-                         
+
                 history_urls.setVisible(false);
                 hist_analysis.setVisible(false);
                 hist_performance.setVisible(false);
                 hist_type.setVisible(false);
                 hist.setVisible(false);
-                
+
                 downloads_urls.setVisible(false);
                 down_analysis.setVisible(false);
                 down_performance.setVisible(false);
