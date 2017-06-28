@@ -84,6 +84,7 @@ public class Downloads extends SharedModel<Object> {
         int url_finshid;
         ArrayList<String> Mime_Type = new ArrayList<String>();
         size = Data_List.size();
+        System.out.println("download_size: " + Data_List.size());
         for (int i = 0; i < size; i++) {
             url_finshid = ((i + 1) * 100) / size;
             Mime_Type.add(Data_List.get(i).GetMimeType());

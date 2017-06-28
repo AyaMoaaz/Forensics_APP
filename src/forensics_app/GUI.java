@@ -30,7 +30,7 @@ public class GUI extends JFrame {
     List<List> down_result = new ArrayList<List>();
 
     //frame 1
-    JLabel text = new JLabel("Select Duration For Your Report"); 
+    JLabel text = new JLabel("Select Duration For Your Report");
     JLabel text2 = new JLabel("Choose at least one File");
 
     JButton report_btn = new JButton("Get Report");
@@ -248,14 +248,13 @@ public class GUI extends JFrame {
 
             }
         });
-        
-        
-         text2.setBounds(100, 210, 300, 60);
+
+        text2.setBounds(100, 210, 300, 60);
         text2.setForeground(new Color(198, 218, 229));
         text2.setFocusable(false);
-        text2.setFont(new Font("calibri", Font.PLAIN,20));
+        text2.setFont(new Font("calibri", Font.PLAIN, 20));
         home.add(text2);
-        
+
         JCheckBox checklist[] = {selectall, history, bookmarks, downloads};
 
         checkPanel = new JPanel(new GridLayout(0, 1));
@@ -615,9 +614,15 @@ public class GUI extends JFrame {
             History history = new History();
             hist_result = history.Analysis(days, pbar);
             System.out.println(hist_result);
-            history_urls.setText(String.valueOf(history.size));
-            hist_performance.setText(String.valueOf(hist_result.get(1).get(0)) + "%");
-            hist_type.setText(String.valueOf(hist_result.get(0).get(0)));
+            if (hist_result != null) {
+                history_urls.setText(String.valueOf(history.size));
+                hist_performance.setText(String.valueOf(hist_result.get(1).get(0)) + "%");
+                hist_type.setText(String.valueOf(hist_result.get(0).get(0)));
+            }else {
+                history_urls.setText("Empty");
+                hist_performance.setText("- %");
+                hist_type.setText("No Thing");
+            }
         } catch (IOException ex) {
         }
     }
@@ -628,9 +633,15 @@ public class GUI extends JFrame {
             pbar.update(pbar.getGraphics());
             Downloads downloads = new Downloads();
             down_result = downloads.Analysis(days, pbar);
-            downloads_urls.setText(String.valueOf(downloads.size));
-            down_performance.setText(String.valueOf(down_result.get(1).get(0)) + "%");
-            down_type.setText(String.valueOf(down_result.get(0).get(0)));
+            if (down_result != null) {
+                downloads_urls.setText(String.valueOf(downloads.size));
+                down_performance.setText(String.valueOf(down_result.get(1).get(0)) + "%");
+                down_type.setText(String.valueOf(down_result.get(0).get(0)));
+            } else {
+                downloads_urls.setText("Empty");
+                down_performance.setText("- %");
+                down_type.setText("No Thing");
+            }
         } catch (IOException ex) {
 
         }
@@ -643,9 +654,15 @@ public class GUI extends JFrame {
             pbar.update(pbar.getGraphics());
             Bookmarks bookmarks = new Bookmarks();
             book_result = bookmarks.Analysis(days, pbar);
-            bookmarks_urls.setText(String.valueOf(bookmarks.size));
-            book_performance.setText(String.valueOf(book_result.get(1).get(0)) + "%");
-            book_type.setText(String.valueOf(book_result.get(0).get(0)));
+            if (book_result != null) {
+                bookmarks_urls.setText(String.valueOf(bookmarks.size));
+                book_performance.setText(String.valueOf(book_result.get(1).get(0)) + "%");
+                book_type.setText(String.valueOf(book_result.get(0).get(0)));
+            } else {
+                bookmarks_urls.setText("Empty");
+                book_performance.setText("- %");
+                book_type.setText("No Thing");
+            }
         } catch (IOException ex) {
 
         }
