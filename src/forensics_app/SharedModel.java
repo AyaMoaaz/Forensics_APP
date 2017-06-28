@@ -86,7 +86,7 @@ public class SharedModel<E> extends ArrayList<E> {
         Font blueFont = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.NORMAL, BaseColor.BLUE);
         Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
         Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-        String fileName = "report " + System.currentTimeMillis() + ".pdf";
+        String fileName = System.getProperty("user.home")+"\\Desktop\\"+ System.currentTimeMillis() + ".pdf";
         Document document = null;
         document = new Document();
         try {
