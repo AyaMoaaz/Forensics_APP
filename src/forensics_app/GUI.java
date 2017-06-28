@@ -526,21 +526,24 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 progress.setVisible(false);
                 home.setVisible(true);
-
+                         
                 history_urls.setVisible(false);
                 hist_analysis.setVisible(false);
                 hist_performance.setVisible(false);
                 hist_type.setVisible(false);
-
+                hist.setVisible(false);
+                
                 downloads_urls.setVisible(false);
                 down_analysis.setVisible(false);
                 down_performance.setVisible(false);
                 down_type.setVisible(false);
+                down.setVisible(false);
 
                 bookmarks_urls.setVisible(false);
                 book_analysis.setVisible(false);
                 book_performance.setVisible(false);
                 book_type.setVisible(false);
+                book.setVisible(false);
 
                 scan.setText("Scanning...");
                 pbar.setVisible(true);
