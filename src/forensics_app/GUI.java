@@ -28,7 +28,7 @@ public class GUI extends JFrame {
     List<List> hist_result = new ArrayList<List>();
     List<List> book_result = new ArrayList<List>();
     List<List> down_result = new ArrayList<List>();
-
+    List<List<List>> final_result = new ArrayList<>();
     //frame 1
     JLabel text = new JLabel("Select Duration For Your Report");
     JLabel text2 = new JLabel("Choose at least one File");
@@ -76,6 +76,9 @@ public class GUI extends JFrame {
 
     public GUI() throws IOException {
         checkCon();
+        final_result.add(null);
+        final_result.add(null);
+        final_result.add(null);
     }
 
     public void checkCon() {
@@ -353,7 +356,10 @@ public class GUI extends JFrame {
                         }
                     }
                 }
+                for (Object object : final_result) {
 
+                    System.out.println(object + "  ------------------");
+                }
             }
         });
         progress.setVisible(false);
@@ -554,6 +560,12 @@ public class GUI extends JFrame {
         pbar.setStringPainted(true);
         pbar.setValue(0);
         progress.add(pbar);
+        save_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                SharedModel.writePDF(final_result);
+            }
+        });
 
         report_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
@@ -618,10 +630,13 @@ public class GUI extends JFrame {
                 history_urls.setText(String.valueOf(history.size));
                 hist_performance.setText(String.valueOf(hist_result.get(1).get(0)) + "%");
                 hist_type.setText(String.valueOf(hist_result.get(0).get(0)));
-            }else {
+                final_result.set(0, hist_result);
+
+            } else {
                 history_urls.setText("Empty");
                 hist_performance.setText("- %");
                 hist_type.setText("No Thing");
+                final_result.set(0, hist_result);
             }
         } catch (IOException ex) {
         }
@@ -637,10 +652,12 @@ public class GUI extends JFrame {
                 downloads_urls.setText(String.valueOf(downloads.size));
                 down_performance.setText(String.valueOf(down_result.get(1).get(0)) + "%");
                 down_type.setText(String.valueOf(down_result.get(0).get(0)));
+                final_result.set(1, down_result);
             } else {
                 downloads_urls.setText("Empty");
                 down_performance.setText("- %");
                 down_type.setText("No Thing");
+                final_result.set(1, down_result);
             }
         } catch (IOException ex) {
 
@@ -658,15 +675,16 @@ public class GUI extends JFrame {
                 bookmarks_urls.setText(String.valueOf(bookmarks.size));
                 book_performance.setText(String.valueOf(book_result.get(1).get(0)) + "%");
                 book_type.setText(String.valueOf(book_result.get(0).get(0)));
+                final_result.set(2, book_result);
             } else {
                 bookmarks_urls.setText("Empty");
                 book_performance.setText("- %");
                 book_type.setText("No Thing");
+                final_result.set(2, book_result);
             }
+
         } catch (IOException ex) {
 
         }
-
     }
-
 }

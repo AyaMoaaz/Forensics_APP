@@ -5,11 +5,10 @@
  */
 package forensics_app;
 
+import com.itextpdf.text.BaseColor;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.StringTokenizer;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -21,15 +20,17 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import org.jsoup.Jsoup;
-//import org.jsoup.nodes.*;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Desktop;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
@@ -61,6 +62,7 @@ public class SharedModel<E> extends ArrayList<E> {
         return count.get(element);
     }
 ////////////////check connection
+
     public static boolean isInternetReachable() {
         try {
             URL url = new URL("http://www.google.com");
@@ -75,29 +77,82 @@ public class SharedModel<E> extends ArrayList<E> {
             return false;
         }
     }
+
     ///////// pdfWriter
-    static int i=0;
-    public static void  writePDF(ArrayList<String> al) {
-        String fileName = "report "+i+".pdf";
-        i++;
-        Document document=null;
+    public static void writePDF(List<List<List>> final_result) {
+        List<List> al = new ArrayList<List>();
+        Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
+        Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.RED);
+        Font blueFont = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.NORMAL, BaseColor.BLUE);
+        Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
+        Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+        String fileName = "report " + System.currentTimeMillis() + ".pdf";
+        Document document = null;
         document = new Document();
         try {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
             document.open();
-            for (String i : al) {
-                document.add(new Phrase(i + "\n"));
+            document.add(new Phrase("\n"));
+            document.add(new Paragraph("ForEye Smart Report", redFont));
+            document.add(new Phrase("\n\n"));
+            for (int z = 0; z < 3; z++) {
+                al = final_result.get(z);
+                switch (z) {
+                    case 0:
+                        if (al != null) {
+                            document.add(new Phrase("\n-> History\n", blueFont));
+                            document.add(new Paragraph("This user interseted in  " + al.get(0).get(0) + "  by " + String.valueOf(al.get(1).get(0)) + "%", catFont));
+                            document.add(new Phrase("\nthe rest of report\n", subFont));
+                            for (int j = 0; j < al.get(0).size(); j++) {
+                                document.add(new Phrase(al.get(0).get(j) + "  by " + String.valueOf(al.get(1).get(j)) + "%"));
+                                document.add(new Phrase("\n"));
+                            }
+                            document.add(new Phrase("\n\n"));
+                        }
+                        break;
+                    case 1:
+                        if (al != null) {
+                            document.add(new Phrase("\n-> Download\n", blueFont));
+                            document.add(new Paragraph("This user interseted in  " + al.get(0).get(0) + "  by " + String.valueOf(al.get(1).get(0)) + "%", catFont));
+                            document.add(new Phrase("\nthe rest of report\n", subFont));
+                            for (int j = 0; j < al.get(0).size(); j++) {
+                                document.add(new Phrase(al.get(0).get(j) + "  by " + String.valueOf(al.get(1).get(j)) + "%"));
+                                document.add(new Phrase("\n"));
+                            }
+                            document.add(new Phrase("\n\n"));
+                        }
+                        break;
+                    case 2:
+                        if (al != null) {
+                            document.add(new Phrase("\n-> Bookmarks\n", blueFont));
+                            document.add(new Paragraph("This user interseted in  " + al.get(0).get(0) + "  by " + String.valueOf(al.get(1).get(0)) + "%", catFont));
+                            document.add(new Phrase("\nthe rest of report\n", subFont));
+                            for (int j = 0; j < al.get(0).size(); j++) {
+                                document.add(new Phrase(al.get(0).get(j) + "  by " + String.valueOf(al.get(1).get(j)) + "%"));
+                                document.add(new Phrase("\n"));
+                            }
+                            document.add(new Phrase("\n\n"));
+                        }
+                        break;
+                }
             }
             document.close();
             writer.close();
-        }
-        catch (DocumentException e) {
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    File myFile = new File(fileName);
+                    Desktop.getDesktop().open(myFile);
+                } catch (IOException ex) {
+                    // no application registered for PDFs
+                }
+            }
+        } catch (DocumentException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
-    
+
     /*Description  : bn3ml array list of strings we na5od l url ntl3 l keywords bta3to we b3den n3mla 
     add fel list de 
     *we lw mlo4 keywords bn7ot NaN fe l list we we b3d keda n3mlha return	
@@ -196,14 +251,14 @@ public class SharedModel<E> extends ArrayList<E> {
         for (String typo : Types_list) {
             if (!types.contains(typo)) {
                 int sum = Collections.frequency(Types_list, typo);
-                int total = ( sum * 100 /  Types_list.size());
+                int total = (sum * 100 / Types_list.size());
                 types.add(typo);
                 vals.add(total);
             }
         }
         Percentage_list.add(types);
         Percentage_list.add(vals);
-        if(types.size() == 0){
+        if (types.size() == 0) {
             Percentage_list = null;
         }
         return Percentage_list;
@@ -233,7 +288,6 @@ public class SharedModel<E> extends ArrayList<E> {
 //        Date date_stamp = new Date(stamp.getTime());// el stamp 3la 4kl date (old);
 //        return date_stamp;
 //    }
-
     public static String CheckDictionary(ArrayList<String> keywords) {
         Connection connection = null;
         ResultSet resultSet = null;
@@ -274,4 +328,5 @@ public class SharedModel<E> extends ArrayList<E> {
         return Type;
 
     }
+
 }
