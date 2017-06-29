@@ -256,8 +256,29 @@ public class SharedModel<E> extends ArrayList<E> {
                 vals.add(total);
             }
         }
+        //Percentage_list.add(types);
+        //Percentage_list.add(vals);
+        System.out.println("not sorted types: "+types +"\tnot sorted values: "+vals);
+        for (int i = 0; i < vals.size(); i++) {
+        if (i < vals.size() - 1) {
+            if (vals.get(i) < vals.get(i + 1)) {
+                int j = vals.get(i);
+                String s = types.get(i);
+                vals.remove(i);
+                types.remove(i);
+                vals.add(i, vals.get(i));
+                types.add(i, types.get(i));
+                vals.remove(i + 1);
+                types.remove(i + 1);
+                vals.add(j);
+                types.add(s);
+                i = -1;
+            }
+        }
+    }
         Percentage_list.add(types);
         Percentage_list.add(vals);
+        System.out.println("sorted types: "+types +"\tsorted values: "+vals);
         if (types.size() == 0) {
             Percentage_list = null;
         }
