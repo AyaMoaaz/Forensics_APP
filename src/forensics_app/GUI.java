@@ -553,6 +553,10 @@ public class GUI extends JFrame {
                 book_performance.setVisible(false);
                 book_type.setVisible(false);
                 book.setVisible(false);
+                
+                final_result.set(0, null);
+                final_result.set(1, null);
+                final_result.set(2, null);
 
                 scan.setText("Scanning...");
                 pbar.setVisible(true);
